@@ -1,11 +1,17 @@
 ---
-title: "Exercies Frecuency Measures and Graphical Representation of Data"
-output: html_notebook
+title: "Exercises Frecuency Measures and Graphical Representation of Data"
+author: "Abel Isaias Gutierrez-Cruz"
+date: "26/6/2021"
+output: html_document
 ---
-```{r message=FALSE, warning=FALSE, paged.print=FALSE}
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(knitr)
 ```
-# Excercise 2.1 Consider the results of the national elections in South Africa in 2014 and 2009:
+
+## Excercise 2.1 Consider the results of the national elections in South Africa in 2014 and 2009:
 
 Party | Results 2014(%) | Results 2009(%)
 --- | --- | ---
@@ -24,6 +30,7 @@ exercise2.1 <- data.frame(results2014 = c(62.15, 22.23, 6.35, 2.40, 0.67, 6.20),
                           row.names = c("ANC", "DA", "EFF", "IFP", "COPE", "Others"))
 barplot(exercise2.1$results2014, names.arg = rownames(exercise2.1))
 ```
+
 b. How would you compare the results of the 2009 and 2014 elections? Offer a
 simple solution that can be represented in a single plot. Construct this plot in R.
 
@@ -31,7 +38,10 @@ simple solution that can be represented in a single plot. Construct this plot in
 difference <- exercise2.1$results2014 - exercise2.1$results2009
 barplot(difference, names.arg = rownames(exercise2.1))
 ```
-# Exercise 2.2 Consider a variable X describing the time until the first goal was scored in the matches of the 2006 football World Cup competition. Only matches with at least one goal are considered, and goals during the xth minute of extra time are denoted as 90 + x:
+
+---
+
+## Exercise 2.2 Consider a variable X describing the time until the first goal was scored in the matches of the 2006 football World Cup competition. Only matches with at least one goal are considered, and goals during the xth minute of extra time are denoted as 90 + x:
 
 a. What is the scale of X ?
 
@@ -43,72 +53,169 @@ b. Write down the frequency table of X based on the following categories: [0, 15
 goals <- c(6,24,91,8,4,25,3,83,89,34,25,24,18,6,23,10,28,4,63,6,60,5,40,2,22,26,23,26,
 44,49,34,2,33,9,16,55,23,13,23,4,8,26,70,4,6,60,23,95,28,49,6,57,33,56,7)
 groups <- c(0, 15, 30, 45, 60, 75, 90, 96)
-labels_goals <- c("[0, 15)", "[15, 30)", "[30, 45)", "[45, 60)", "[60, 75)", "[75, 90)", "[90, 96)")
+labels_goals <- c(15, 30, 45, 60, 75, 90, 96)
 grouped_goals <- cut(goals, breaks = groups, labels = labels_goals, right = FALSE)
-table(grouped_goals)
+nj <- as.vector(table(grouped_goals))
+fj <- as.vector(round(table(grouped_goals)/length(goals), 2))
+table_frecuency_2.2 <- data.frame(j = c(1:7), "ej-1" = groups[1:7], "ej" = groups[2:8], "nj" = nj, 
+           "fj" = fj, "dj" = c(15, 15, 15, 15, 15, 15, 6))
+kable(table_frecuency_2.2)
 ```
+
 c. Draw the histogram for X with intervals relating to the groups from the frequency
 table.
 ```{r}
 hist(goals, breaks = groups, xlim = c(0, 100))
 ```
+
 d.Now use R to reproduce the histogram. Compare the histogram to a kernel
 density plot of your choice.
 ```{r}
 plot(density(goals))
 ```
+
 e. Calculate the empirical cumulative distribution function for the grouped data.
+```{r}
+Fx <- cumsum(table_frecuency_2.2$fj)
+table_frecuency_2.2 <- mutate(table_frecuency_2.2, "F(x)" = Fx)
+kable(table_frecuency_2.2)
+```
+
+
 f. Use R to plot the ECDF (via a step function) for
 - the original data
 ```{r}
-plot.ecdf(grouped_goals)
+plot.ecdf(goals)
 ```
-- the grouped data.
 
-g.  Consider the grouped data. Now assume that the values within each interval are
-distributed uniformly. Determine the proportion of first goals which occurred
+- the grouped data.
+```{r}
+plot.ecdf(as.numeric(as.character(grouped_goals)))
+```
+
+
+g.  Consider the grouped data. Now assume that the values within each interval are distributed uniformly. Determine the proportion of first goals which occurred
 
 - in the first half, i.e. during the first 45 min,
+```{r}
+g1 <- table_frecuency_2.2[3, 7]
+```
+
+$H(X \leq 45) = F(45) =$ `r I(g1)` 
+
 - in the last 10 min or during the extra time,
+```{r}
+g2 <- 1 - (table_frecuency_2.2[5, 7] + 
+               ((table_frecuency_2.2[6, 5]/table_frecuency_2.2[6, 6])*(80 - 75)))
+```
+
+$H(x > 80 = 1 - F(80) = 1 - (F(75) + \dfrac{f_i}{d_j}(x - e_{j-1})) =$ `r g2`
+
 - between the 20th and 65th min, i.e. what is H (20 ≤ X ≤ 65)?
+```{r}
+g3 <- (table_frecuency_2.2[4, 7] + 
+               ((table_frecuency_2.2[5, 5]/table_frecuency_2.2[5, 6])*(65 - 60))) -
+    (table_frecuency_2.2[1, 7] + 
+               ((table_frecuency_2.2[2, 5]/table_frecuency_2.2[2, 6])*(20 - 15))) +
+    table_frecuency_2.2[2, 5]
+```
+$H(20 \leq X \leq 65) = F(65) - F(20) +f(2) =$ `r g3`
 
 h. Determine the time point at which in 80 % of the matches the first goal was
 scored at or before this time point
+```{r}
+h1 <- table_frecuency_2.2[4, 2] + ((0.8 - table_frecuency_2.2[3, 7])/
+                                       (table_frecuency_2.2[4, 5]/table_frecuency_2.2[4, 6]))
+```
 
+$F(X) = 0.8 = F(e_{j-1}) + h_j(x_p - e_{j-1})$
 
-# Exercise 2.3 Suppose we have the following information to construct a histogram for a continuous variable with 2000 observations:
+$x_p = e_{j-1}+\dfrac{0.8 - F(e_{j-1})}{h_j} =$ `r h1`
+
+---
+
+## Exercise 2.3 Suppose we have the following information to construct a histogram for a continuous variable with 2000 observations:
 ```{r}
 exercise2.3 <- data.frame("j" = c(1:4), "ej-1" = c(0, 1, 4, 7), "ej" = c(1, 4, 7, 8), 
                           "dj" = c(1, 3, 3, 1), "hj" = rep(0.125, 4))
 exercise2.3
 ```
 a. Determine the relative frequencies for each interval
+```{r}
+exercise2.3 <- mutate(exercise2.3, fi = exercise2.3$hj * exercise2.3$dj)
+kable(exercise2.3$fi)
+```
+
 
 b. Determine the absolute frequencies
+```{r}
+exercise2.3 <- mutate(exercise2.3, Fx = cumsum(exercise2.3$fi))
+kable(exercise2.3$Fx)
+```
 
-# Exercise 2.4 A university survey was conducted on 500 first-year students to obtain knowledge about the size of their accommodation (in square metres).
+
+## Exercise 2.4 A university survey was conducted on 500 first-year students to obtain knowledge about the size of their accommodation (in square metres).
 ```{r}
 exercise2.4 <- data.frame("j" = c(1:5), "from" = c(8, 14, 22, 34, 50), 
                           "to" = c(14, 22, 34, 50, 82), 
                           "F(x)" = c(0.25, 0.40, 0.75, 0.97, 1))
-exercise2.4
+kable(exercise2.4)
 ```
 a. Determine the absolute frequencies for each category.
+```{r}
+exercise2.4 <- mutate(exercise2.4, fj = exercise2.4$F.x. - c(0, exercise2.4$F.x.[1:4]))
+exercise2.4 <- mutate(exercise2.4, nj = exercise2.4$fj*500)
+kable(exercise2.4)
+```
 
 b.  What proportion of people live in a flat of at least 34 m2 ?
-
-
-# Exercise 2.5 Consider a survey in which 100 people were asked to rate on a scale from 1 to 10 how much they agree with the statement that “there is too much football on television”. The results are summarized below:
 ```{r}
-exercise2.5 <- data.frame(score = c(0:10), responses = c(0, 1, 3, 8, 8, 27, 30, 11, 6, 4, 2))
-exercise2.5
+b <- 1 - exercise2.4[3, 4]
+```
+
+$F(x > 34) = 1 - F(34) = 1 - F(34) =$ `r b`
+
+---
+
+## Exercise 2.5 Consider a survey in which 100 people were asked to rate on a scale from 1 to 10 how much they agree with the statement that “there is too much football on television”. The results are summarized below:
+```{r}
+exercise2.5 <- data.frame(score = c(1:10), responses = c(1, 3, 8, 8, 27, 30, 11, 6, 4, 2))
+kable(exercise2.5)
 ```
 a. Calculate and draw the ECDF of the scores.
+```{r}
+exercise2.5 <- mutate(exercise2.5, fj = exercise2.5$responses/100)
+exercise2.5 <- mutate(exercise2.5, Fj = cumsum(exercise2.5$fj))
+kable(exercise2.5)
+plot.ecdf(x = exercise2.5$responses)
+```
+
+
 b. Determine F(3) and F(9).
 c. Consider the situation, where the data is summarized in the two categories “disagree” (score ≤ 5) and “agree” (score > 5). What would the ECDF look like under the approach outlined in (2.11)? Determine F(3) and F(9) for the summarized data.
-d. Explain the differences between (b) and (c).
+```{r}
+groups <- c(0, 6, 11)
+labels <- c("disagree", "agree")
+grouped_data <- cut(exercise2.5$score, breaks = groups, labels = labels, right = FALSE)
+x <- as.array(exercise2.5$responses)
+dimnames(x) <- list(grouped_data)
+plot.ecdf(tapply(x, grouped_data, sum))
 
-# Exercise 2.6 It is possible to produce professional graphics in R. However, it is advantageous to go beyond the default options. To demonstrate this, consider Example 2.1.3 about the pizza delivery data, which is described in Appendix A.4.
+c <- data.frame(j = c(1:2), nj = tapply(x, grouped_data, sum))
+c <- mutate(c, fj = c$nj/100)
+c <- mutate(c, Fj = cumsum(c$fj))
+
+c1 <- (c$fj[1]/5)*3
+
+c2 <- c$Fj[1] + (c$fj[2]/5)*(9-5)
+```
+$F(3) = F(0) + \dfrac{0.47}{5}(3-0) =$ `r c1`
+
+$F(9) = F(5) + \dfrac{0.53}{5}(9-5) =$ `r c2`
+
+---
+
+## Exercise 2.6 It is possible to produce professional graphics in R. However, it is advantageous to go beyond the default options. To demonstrate this, consider Example 2.1.3 about the pizza delivery data, which is described in Appendix A.4.
 
 a. Set the working directory in R (setwd()), read in the data (read.csv()), and attach the data. Draw a histogram of the variable “temperature”. Type ?hist, and view the options. Adjust the histogram so that you are satisfied with (i) axes labelling, (ii) axes range, and (iii) colour. Now use the lines() command to add a dashed vertical line at 65 C (which is the minimum temperature the pizza should have at the time of delivery).
 
