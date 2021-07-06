@@ -8,6 +8,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(dplyr)
+library(ggplot2)
 library(knitr)
 ```
 
@@ -218,11 +219,34 @@ $F(9) = F(5) + \dfrac{0.53}{5}(9-5) =$ `r c2`
 ## Exercise 2.6 It is possible to produce professional graphics in R. However, it is advantageous to go beyond the default options. To demonstrate this, consider Example 2.1.3 about the pizza delivery data, which is described in Appendix A.4.
 
 a. Set the working directory in R (setwd()), read in the data (read.csv()), and attach the data. Draw a histogram of the variable “temperature”. Type ?hist, and view the options. Adjust the histogram so that you are satisfied with (i) axes labelling, (ii) axes range, and (iii) colour. Now use the lines() command to add a dashed vertical line at 65 C (which is the minimum temperature the pizza should have at the time of delivery).
+```{r}
+pizza_delivery <- read.csv("Data/pizza_delivery.csv")
+attach(pizza_delivery)
+
+hist(temperature, xlab = "Temperature", xlim = c(40, 90), ylim = c(0, 400), col = blues9, 
+     ylab = "Number of deliveries")
+lines(c(65, 65), c(0, 400))
+```
+
 
 b. Consider a different approach, which constructs plots by means of multiple layers using ggplot2. You need an Internet connection to install the package using the command install.packages(’ggplot2’). Browse through the help pages on http://docs.ggplot2.org/current/. Look specifically at the examples for ggplot, qplot, scale_histogram, and scale_y_continuous. Try to understand the roles of “aesthetics” and “geoms”. Now, after loading the library via library(ggplot2), create a ggplot object for the pizza data, which declares “temperature” to be the x-variable. Now add a layer with geom_histogram to create a histogram with interval width of 2.5 and dark grey bars which are 50 % transparent. Change the y-axis labelling by adding the relevant layer using scale_y_continuous. Plot the graph.
+```{r}
+ggplot(data = pizza_delivery, aes(x = temperature)) + geom_histogram(fill = 'darkgrey', 
+                                                                     alpha = 0.5, bindiwidth = 2.5) +
+    scale_y_continuous("Number of deliveries")
+```
+
 
 c. Now create a normal bar chart for the variable “driver” in R. Type ?barplot and ?par to see the options one can pass on to barchart() to adjust the graph. Make the graph look good.
+```{r}
+barplot(table(driver), ylim = c(0, 400), col = blues9, ylab = "Number of deliveries", 
+        xlab = "Driver", main = "Barplot")
+```
 
 d. Now create the same bar chart with ggplot2. Use qplot instead of ggplot to create the plot. Use an option which makes each bar to consist of segments relating to the day of delivery, so that one can see the number of deliveries by driver to highlight during which days the drivers delivered most often. Browse through “themes” and “scales” on the help page, and add layers that make the background black and white and the bars on a grey scale.
+```{r}
+qplot(driver, data = pizza, aes=('bar'), fill=day) + scale_fill_grey() + theme_bw()
+```
+
 
 
