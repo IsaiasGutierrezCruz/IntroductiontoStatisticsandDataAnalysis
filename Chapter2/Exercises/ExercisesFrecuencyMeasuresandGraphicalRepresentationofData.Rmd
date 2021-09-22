@@ -2,7 +2,9 @@
 title: "Exercises Frecuency Measures and Graphical Representation of Data"
 author: "Abel Isaias Gutierrez-Cruz"
 date: "26/6/2021"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -14,7 +16,7 @@ library(knitr)
 
 ## Excercise 2.1 Consider the results of the national elections in South Africa in 2014 and 2009:
 
-Party | Results 2014(%) | Results 2009(%)
+Party | Results 2014($\%$) | Results 2009($\%$)
 --- | --- | ---
 ANC | 36.15 | 65.90
 DA | 22.23 | 16.66
@@ -112,7 +114,7 @@ g2 <- 1 - (table_frecuency_2.2[5, 7] +
 
 $H(x > 80 = 1 - F(80) = 1 - (F(75) + \dfrac{f_i}{d_j}(x - e_{j-1})) =$ `r g2`
 
-- between the 20th and 65th min, i.e. what is H (20 ≤ X ≤ 65)?
+- between the 20th and 65th min, i.e. what is H (20 $\leq$ X $\leq$ 65)?
 ```{r}
 g3 <- (table_frecuency_2.2[4, 7] + 
                ((table_frecuency_2.2[5, 5]/table_frecuency_2.2[5, 6])*(65 - 60))) -
@@ -122,7 +124,7 @@ g3 <- (table_frecuency_2.2[4, 7] +
 ```
 $H(20 \leq X \leq 65) = F(65) - F(20) +f(2) =$ `r g3`
 
-h. Determine the time point at which in 80 % of the matches the first goal was
+h. Determine the time point at which in 80 $\%$ of the matches the first goal was
 scored at or before this time point
 ```{r}
 h1 <- table_frecuency_2.2[4, 2] + ((0.8 - table_frecuency_2.2[3, 7])/
@@ -193,7 +195,7 @@ plot.ecdf(x = exercise2.5$responses)
 
 
 b. Determine F(3) and F(9).
-c. Consider the situation, where the data is summarized in the two categories “disagree” (score ≤ 5) and “agree” (score > 5). What would the ECDF look like under the approach outlined in (2.11)? Determine F(3) and F(9) for the summarized data.
+c. Consider the situation, where the data is summarized in the two categories “disagree” (score $\leq$ 5) and “agree” (score $>$ 5). What would the ECDF look like under the approach outlined in (2.11)? Determine F(3) and F(9) for the summarized data.
 ```{r}
 groups <- c(0, 6, 11)
 labels <- c("disagree", "agree")
@@ -220,7 +222,7 @@ $F(9) = F(5) + \dfrac{0.53}{5}(9-5) =$ `r c2`
 
 a. Set the working directory in R (setwd()), read in the data (read.csv()), and attach the data. Draw a histogram of the variable “temperature”. Type ?hist, and view the options. Adjust the histogram so that you are satisfied with (i) axes labelling, (ii) axes range, and (iii) colour. Now use the lines() command to add a dashed vertical line at 65 C (which is the minimum temperature the pizza should have at the time of delivery).
 ```{r}
-pizza_delivery <- read.csv("Data/pizza_delivery.csv")
+pizza_delivery <- read.csv("../../Data/pizza_delivery.csv")
 attach(pizza_delivery)
 
 hist(temperature, xlab = "Temperature", xlim = c(40, 90), ylim = c(0, 400), col = blues9, 
@@ -245,7 +247,7 @@ barplot(table(driver), ylim = c(0, 400), col = blues9, ylab = "Number of deliver
 
 d. Now create the same bar chart with ggplot2. Use qplot instead of ggplot to create the plot. Use an option which makes each bar to consist of segments relating to the day of delivery, so that one can see the number of deliveries by driver to highlight during which days the drivers delivered most often. Browse through “themes” and “scales” on the help page, and add layers that make the background black and white and the bars on a grey scale.
 ```{r}
-qplot(driver, data = pizza, aes=('bar'), fill=day) + scale_fill_grey() + theme_bw()
+qplot(driver, data = pizza_delivery, aes=('bar'), fill=day) + scale_fill_grey() + theme_bw()
 ```
 
 
