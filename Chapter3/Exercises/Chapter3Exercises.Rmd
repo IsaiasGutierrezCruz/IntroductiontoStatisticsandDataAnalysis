@@ -1,8 +1,10 @@
 ---
 title: "Chapther 3 Exercises"
-author: "Abel Isaias Gutierrez-Cruz"
+author: "Abel Isaías Gutiérrez-Cruz"
 date: "13/7/2021"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -177,6 +179,7 @@ Men's wear $\bar{x}$:
 
 $\bar{x}_T = \dfrac{1}{n} \sum\limits_{j=1}^kn_jm_j$
 
+
 $\bar{x}_T = \dfrac{1}{n_T}(n_w\bar{x}_w + n_c\bar{x}_c + n_m\bar{x}_m)$
 
 $\bar{x}_m = \dfrac{1}{n_m}(n_T\bar{x}_T - n_c\bar{x}_c - n_w\bar{x}_w)$
@@ -269,34 +272,72 @@ sum_v <- sum(sapply(2:nrow(data2_exercise3_4), function(i) data2_exercise3_4$v[i
 
 
 ## Exercise 3.5 
-Consider the monthly salaries Y (in Swiss francs) of a well-reputed software company, as well as the length of service (in months, X), and gender (Z). Figure 3.8 shows the QQ-plots for both Y and X given Z . Interpret both graphs.
+Consider the monthly salaries Y (in Swiss francs) of a well-reputed software company, as well as the length of service (in months, X), and gender (Z). Figure 3.8 shows the QQ-plots for both Y and X given Z . Interpret both graphs. 
+
+In the graph for the salary, we would seem that men have a higher salary than women. For this reason, the dots tends to the bottom. Furthermore, in the graph for the length of service, the data would seem more equitation for both, men and women. 
 
 
 ## Exercise 3.6 
-There is no built-in function in R to calculate the mode of a variable.
-Program such a function yourself. Hint: type ?table and ?names to recall the
-functionality of these functions. Combine them in an intelligent way.
+There is no built-in function in R to calculate the mode of a variable. Program such a function yourself. Hint: type ?table and ?names to recall the functionality of these functions. Combine them in an intelligent way.
+
+```{r}
+Modes <- function(x) {
+  ux <- unique(x)
+  tab <- tabulate(match(x, ux))
+  ux[tab == max(tab)]
+}
+```
+
 
 
 ## Exercise 3.7 
 Consider a country in which 90 % of the wealth is owned by 20 % of the population, the so-called upper class. For simplicity, let us assume that the wealth is distributed equally within this class.
 
 (a) Draw the Lorenz curve for this country.
-(b) Now assume a revolution takes place in the country and all members of the upper
-class have to give away their wealth which is then distributed equally across the
-remaining population. Draw the Lorenz curve for this scenario.
+
+In this case we only have two dots of the graph
+```{r}
+data_exercise3_7 <- data.frame(population = c(0, 0.8, 1), wealth = c(0, 0.1, 1))
+
+plot(data_exercise3_7$population, data_exercise3_7$wealth, xlab = "Population", ylab = "Wealth", main = "Lorenz Curve")
+lines(data_exercise3_7$population, data_exercise3_7$wealth)
+```
+
+(b) Now assume a revolution takes place in the country and all members of the upper class have to give away their wealth which is then distributed equally across the remaining population. Draw the Lorenz curve for this scenario.
+```{r}
+data_exercise3_7 <- data.frame(population = c(0, 0.2, 1), wealth = c(0, 0, 1))
+
+plot(data_exercise3_7$population, data_exercise3_7$wealth, xlab = "Population", ylab = "Wealth", main = "Lorenz Curve")
+lines(data_exercise3_7$population, data_exercise3_7$wealth)
+```
+
 (c) What would the curve from (b) look like if the entire upper class left the country?
 
+```{r}
+data_exercise3_7 <- data.frame(population = c(0, 1), wealth = c(0, 1))
+
+plot(data_exercise3_7$population, data_exercise3_7$wealth, xlab = "Population", ylab = "Wealth", main = "Lorenz Curve")
+lines(data_exercise3_7$population, data_exercise3_7$wealth)
+```
 
 ## Exercise 3.8 
 A bus route in the mountainous regions of Romania has a length of 418 km. The manager of the bus company serving the route wants his buses to finish a trip within 8 h. The bus travels the first 180 km with an average speed of 48 km/h, the next 117 km with an average speed of 37 km/h, and the last section with an average speed of 52 km/h.
 (a) What is the average speed with which the bus travels?
+```{r}
+data_exercise3_8 <- data.frame(distance = c(180, 117, 418 - 180 - 117), av_speed = c(48, 37, 52))
+
+av_speed <- mean(data_exercise3_8$av_speed)
+av_speed
+```
+
 (b) Will the bus finish the trip in time?
+```{r}
+418 * 1/av_speed <= 8
+```
 
 
 ## Exercise 3.9 
-Four friends have a start-up company which sells vegan ice cream.
-Their initial financial contributions are as follows:
+Four friends have a start-up company which sells vegan ice cream. Their initial financial contributions are as follows:
 
 Person | Contribution (in euros)
 --- | ---
@@ -306,22 +347,85 @@ Person | Contribution (in euros)
 4 | 2220
 
 (a) Calculate and draw the Lorenz curve.
-(b) Determine and interpret the standardized Gini coefficient.
-(c) Does $G^+$ change if each of the friends contributes only half the amount of
-money? If yes, how much? If no, why not?
-(d) Use R to draw the above Lorenz curve and to calculate the Gini coefficient.
+```{r}
+data_exercise3_9 <- data.frame(person = c(1:4), contribution = c(800, 10300, 4700, 2220)) %>% arrange(contribution) %>%
+  mutate(person_freq = c(0.25, 0.25, 0.25, 0.25)) %>% mutate(u = cumsum(person_freq)) %>%
+  mutate(contribution_freq = contribution/sum(contribution)) %>% mutate(v = cumsum(contribution_freq))
 
+plot(data_exercise3_9$u, data_exercise3_9$v, xlab = "u", ylab = "v", main = "Lorenz Curve")
+lines(data_exercise3_9$u, data_exercise3_9$v)
+```
+
+(b) Determine and interpret the standardized Gini coefficient.
+```{r}
+sum_v <- sum(c(data_exercise3_9$v[1], sapply(2:nrow(data_exercise3_9), function(i) data_exercise3_9$v[i] + 
+                                               data_exercise3_9$v[i-1])))
+
+# Gini coefficient
+gini_coeff <- 1 - (1/nrow(data_exercise3_9)*sum_v)
+```
+$G^+$:
+```{r}
+(nrow(data_exercise3_9)/(nrow(data_exercise3_9) - 1))*gini_coeff
+```
+
+
+(c) Does $G^+$ change if each of the friends contributes only half the amount of money? If yes, how much? If no, why not?
+The Gini coefficient remains the same 
+
+(d) Use R to draw the above Lorenz curve and to calculate the Gini coefficient.
+```{r}
+library(ineq)
+plot(Lc(data_exercise3_9$contribution))
+ineq(data_exercise3_9$contribution)
+```
 
 ## Exercise 3.10 
-Recall the pizza delivery data which is described in Appendix A.4.
-Use R to read in and analyse the data.
+Recall the pizza delivery data which is described in Appendix A.4. Use R to read in and analyse the data.
+```{r}
+# load the data 
+data_pizza <- read.csv("../../Data/pizza_delivery.csv")
+```
+
+
 (a) Calculate the mean, median, minimum, maximum, first quartile, and third quartile for all quantitative variables.
+```{r}
+summary(data_pizza)
+```
+
 (b) Determine and interpret the 99 % quantile for delivery time and temperature.
-(c) Write a function which calculates the absolute mean deviation. Use the function
-to calculate the absolute mean deviation of temperature.
+```{r}
+#quantile(data_pizza$time, probs = c(.99))
+
+summarize(data_pizza, quantile_time = quantile(time, probs = c(0.99)), 
+                         quantie_temperature = quantile(temperature, probs = c(0.99)))
+```
+The 99$\%$ of the time data is less than or equal to 48.6 min and the 99$\%$ of the temperature data is less than or equal to 79.87 °C
+
+(c) Write a function which calculates the absolute mean deviation. Use the function to calculate the absolute mean deviation of temperature.
+```{r}
+amd <- function(x){1/length(x)*sum(abs(x-mean(x)))}
+amd(data_pizza$temperature)
+```
+
 (d) Scale the delivery time and calculate the mean and variance for this variable.
-(e) Draw a box plot for delivery time and temperature. The box plots should not
-highlight extreme values.
-(f) Use the cut command to create a new variable which summarizes delivery time
-in steps of 10 min. Calculate the arithmetic mean of this variable.
-(g) Reproduce the QQ-plots shown in Example 3.1.6.
+```{r}
+scaled_time <- scale(data_pizza$time)
+mean(scaled_time)
+var(scaled_time)
+```
+
+(e) Draw a box plot for delivery time and temperature. The box plots should not highlight extreme values.
+```{r}
+par(mfrow = c(1, 2), mar = c(2, 5, 3, 1))
+boxplot(data_pizza$temperature, main = "Boxplot temperature", col = blues9, ylab = "Temperature (°C)", range = 0)
+boxplot(data_pizza$time, main = "Boxplot time", col = blues9, ylab = "Time (min)", range = 0)
+```
+
+
+(f) Reproduce the QQ-plots shown in Example 3.1.6.
+```{r}
+qqplot(data_pizza$time[data_pizza$driver == 'Luigi'], data_pizza$time[data_pizza$driver == 'Domenico'])
+qqplot(data_pizza$time[data_pizza$driver == 'Mario'], data_pizza$time[data_pizza$driver == 'Salvatore'])
+```
+
