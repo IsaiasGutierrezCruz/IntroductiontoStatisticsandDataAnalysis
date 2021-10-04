@@ -1,0 +1,131 @@
+---
+title: "Association of Two Variables"
+author: "Abel Isaias Gutierrez-Cruz"
+date: "4/10/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Exercise 4.1 
+A newspaper asks two of its staff to review the coffee quality at different trendy cafés. The coffee can be rated on a scale from 1 (miserable) to 10 (excellent). The results of the two coffee enthusiasts X and Y are as follows:
+
+Café i | xi | yi
+--- |--- |---
+1 | 3 | 6
+2 | 8 | 7
+3 | 7 | 10
+4 | 9 | 8
+5 | 5 | 4
+
+a. Calculate and interpret Spearman’s rank correlation coefficient.
+b. Does Spearman’s R differ depending on whether ranks are assigned in a decreasing or increasing order?
+c. Suppose the coffee can only be rated as either good ($>5$) or bad ($\leq5$). Do the chances of a good rating differ between the two journalists?
+
+## Exercise 4.2 
+
+A total of 150 customers of a petrol station are asked about their satisfaction with their car and motorbike insurance. The results are summarized below:
+
+
+. | Satisfied | Unsatisfied | Total
+--- | --- | --- | ---
+Car | 33 | 25 | 58
+Car (diesel engine) | 29 | 31 | 60
+Motorbike | 12 | 20 | 32
+Total | 74 | 76 | 150
+
+a. Determine and interpret Pearson’s $\chi^2$ statistic, Cramer’s $V$ , and $C_{corr}$.
+b. Combine the categories “car” and “car (diesel engine)” and produce the corresponding 2 × 2 table. Calculate χ2 as efficiently as possible and give a meaningful interpretation of the odds ratio.
+c. Compare the results from (a) and (b).
+
+
+## Exercise 4.3 
+
+There has been a big debate about the usefulness of speed limits on public roads. Consider the following table which lists the speed limits for country roads (in miles/h) and traffic deaths (per 100 million km) for different countries in 1986 when the debate was particularly serious:
+
+a. Draw the scatter plot for the two variables.
+b. Calculate the Bravais–Pearson and Spearman correlation coefficients.
+
+Country | Speed limit | Traffic deaths
+--- | --- | ---
+Denmark | 55 | 4.1
+Japan | 55 | 4.7
+Canada | 60 | 4.3
+Netherlands | 60 | 5.1
+Italy | 75 | 6.1
+
+c. What are the effects on the correlation coefficients if the speed limit is given in km/h rather than miles/h (1 mile/h $\approx$ 1.61 km/h)?
+d. Consider one more observation: the speed limit for England was 70 miles/h and the death rate was 3.1.
+    (i) Add this observation to the scatter plot.
+    (ii) Calculate the Bravais–Pearson correlation coefficient given this additional observation.
+    
+
+## Exercise 4.4 
+
+The famous passenger liner Titanic hit an iceberg in 1912 and sank. A total of 337 passengers travelled in first class, 285 in second class, and 721 in third class. In addition, there were 885 staff members on board. Not all passengers could be rescued. Only the following were rescued: 135 from the first class, 160 from the second class, 541 from the third class and 674 staff.
+
+a. Determine and interpret the contingency table for the variables “travel class” and “rescue status”.
+b. Use a contingency table to summarize the conditional relative frequency distributions of rescue status given travel class. Could there be an association of the two variables?
+c. What would the contingency table from (a) look like under the independence assumption? Calculate Cramer’s V statistic. Is there any association between travel class and rescue status?
+d. Combine the categories “first class” and “second class” as well as “third class” and “staff”. Create a contingency table based on these new categories. Determine and interpret Cramer’s V , the odds ratio, and relative risks of your choice.
+e. Given the results from (a) to (d), what are your conclusions? 
+
+
+## Exercise 4.5 
+
+To study the association of the monthly average temperature (in °C, X) and hotel occupation (in $\%$, Y), we consider data from three cities: Polenca (Mallorca, Spain) as a summer holiday destination, Davos (Switzerland) as a winter skiing destination, and Basel (Switzerland) as a business destination
+
+![image1](Images/1.png)
+
+![data](Images/2.png)
+
+a. Calculate the Bravais–Pearson correlation coefficient. The following summary statistics are available: $\sum_{i=1}^{36}x_iy_i = 22$, $\bar{x} = 12.22$, $\bar{y} = 51.28$, $\tilde{s}_x^2 = 76.95$ and $\tilde{s}_y^2 = 706.98$
+b. Interpret the scatter plot in Fig. 4.7 which visualizes temperature and hotel occupancy for Davos (D), Polenca (P), and Basel (B).
+c. Use R to calculate the correlation coefficient separately for each city. Interpret the results and discuss the use of the correlation coefficient if more than two variables are available.
+
+
+## Exercise 4.6 
+
+Consider a neighbourhood survey on the use of a local park. Respondents were asked whether the park may be used for summer music concerts and whether dog owners should put their dogs on a lead. The results are summarized in the following contingency table:
+
+![data2](Images/3.png)
+
+(a) Calculate and interpret Goodman and Kruskal’s $\gamma$.
+(b) Now ignore the ordinal structure of the data and calculate Cramer’s $V$ .
+(c) Create the contingency table which is obtained when the categories “no opinion” and “agree” are combined.
+(d) What is the relative risk of disagreement with summer concerts depending on the opinion about using leads?
+(e) Calculate the odds ratio and offer two interpretations of it.
+(f) Determine γ for the table calculated in (c).
+(g) What is your final interpretation and what may be the best measure to use in this example?
+
+
+## Exercise 4.7 
+
+Consider n observations for which yi = a + bx i , b > 0, holds. Show that r = 1.
+
+
+## Exercise 4.8 
+
+Make yourself familiar with the Olympic decathlon data described in Appendix A.4. Read in and attach the data in R.
+
+a. Use R to calculate and interpret the Bravais–Pearson correlation coefficient between the results of the discus and the shot-put events.
+b. There are 10 continuous variables. How many different correlation coefficients can you calculate? How would you summarize them?
+c. Apply the cor command to the whole data and interpret the output.
+d. Omit the two rows which contain missing data and interpret the output again.
+
+
+## Exercise 4.9 
+
+We are interested in the pizza delivery data which is described in Appendix A.4.
+
+a. Read in the data and create two new binary variables which describe whether a pizza was hot ($>$ 65 °C) and the delivery time was short ($<$ 30 min). Create a contingency table for the two new variables.
+b. Calculate and interpret the odds ratio for the contingency table from (a).
+c. Use Cramer’s $V$ , Stuart’s $\tau_c$ , Goodman and Kruskal’s $\gamma$, and a stacked bar chart to explore the association between the categorical time and temperature variables.
+d. Draw a scatter plot for the continuous time and temperature variables. Determine both the Bravais–Pearson and Spearman correlation coefficients.
+e. Use methods of your choice to explore the relationship between temperature and driver, operator, number of ordered pizzas and bill. Is it clear which of the variables influence the pizza temperature?
+
+
+
+
