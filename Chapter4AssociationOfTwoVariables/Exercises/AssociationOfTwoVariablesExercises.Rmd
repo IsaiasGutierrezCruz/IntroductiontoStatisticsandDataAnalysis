@@ -7,6 +7,9 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(reticulate)
+reticulate::use_condaenv("py38")
 ```
 
 ## Exercise 4.1 
@@ -21,8 +24,50 @@ Café i | xi | yi
 5 | 5 | 4
 
 a. Calculate and interpret Spearman’s rank correlation coefficient.
+```{r}
+# r
+data_exercise41 <- data.frame(cafe = 1:5, x = c(3, 8, 7, 9, 5), y = c(6, 7, 10, 8, 4))
+cor(x = data_exercise41$x, y = data_exercise41$y, method = 'spearman')
+```
+
+```{python}
+# python 
+from scipy import stats
+import pandas as pd
+import numpy as np
+
+data_exercise41 = pd.DataFrame({"cafe":np.arange(1, 6), "x":[3, 8, 7, 9, 5], "y":[6, 7, 10, 8,4]})
+stats.spearmanr(data_exercise41[["x"]], data_exercise41[["y"]])
+```
+Both of the participant's rates seem to have a moderate ascendent tendency. It means that both of them think that the coffee have a good quality
+
 b. Does Spearman’s R differ depending on whether ranks are assigned in a decreasing or increasing order?
+No, it don't. It does not matter wheter we choose an ascending or descending order of the ranks, the value remains the same 
+
 c. Suppose the coffee can only be rated as either good ($>5$) or bad ($\leq5$). Do the chances of a good rating differ between the two journalists?
+
+```{r}
+# r 
+data_exercise41[, 2:3] <- ifelse(data_exercise41[, 2:3] > 5, "Good", "Bad")
+data_exercise41 <- data.frame("quality" = c(data_exercise41$x, data_exercise41$y), 
+                                              "enthusiast" = c(rep("x", 5), rep("y", 5)))
+identity_m41 <- table(data_exercise41$quality, data_exercise41$enthusiast)
+(identity_m41[1, 1]*identity_m41[2, 2]) / (identity_m41[1, 2]*identity_m41[2, 1])
+```
+
+```{python}
+# python
+data_exercise41['x'] = data_exercise41['x'].apply(lambda x: 1 if x > 5 else 0)
+data_exercise41['y'] = data_exercise41['y'].apply(lambda x: 1 if x > 5 else 0)
+
+contingency_data = pd.DataFrame({"quality": np.concatenate((data_exercise41['x'], data_exercise41['y'])), "enthusiast":np.concatenate((np.repeat("x", 5), np.repeat("y", 5)))})
+
+contingency_data = pd.crosstab(contingency_data['quality'], contingency_data['enthusiast'], margins = False)
+
+(contingency_data.iloc[0, 0] * contingency_data.iloc[1, 1])/(contingency_data.iloc[0, 1] * contingency_data.iloc[1, 0])
+```
+
+
 
 ## Exercise 4.2 
 

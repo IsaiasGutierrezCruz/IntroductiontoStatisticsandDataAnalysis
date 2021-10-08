@@ -212,9 +212,41 @@ pre code {
 </table>
 <ol style="list-style-type: lower-alpha">
 <li>Calculate and interpret Spearman’s rank correlation coefficient.</li>
-<li>Does Spearman’s R differ depending on whether ranks are assigned in a decreasing or increasing order?</li>
-<li>Suppose the coffee can only be rated as either good (<span class="math inline">\(&gt;5\)</span>) or bad (<span class="math inline">\(\leq5\)</span>). Do the chances of a good rating differ between the two journalists?</li>
 </ol>
+<pre class="r"><code># r
+data_exercise41 &lt;- data.frame(cafe = 1:5, x = c(3, 8, 7, 9, 5), y = c(6, 7, 10, 8, 4))
+cor(x = data_exercise41$x, y = data_exercise41$y, method = &#39;spearman&#39;)</code></pre>
+<pre><code>## [1] 0.6</code></pre>
+<pre class="python"><code># python 
+from scipy import stats
+import pandas as pd
+import numpy as np
+
+data_exercise41 = pd.DataFrame({&quot;cafe&quot;:np.arange(1, 6), &quot;x&quot;:[3, 8, 7, 9, 5], &quot;y&quot;:[6, 7, 10, 8,4]})
+stats.spearmanr(data_exercise41[[&quot;x&quot;]], data_exercise41[[&quot;y&quot;]])</code></pre>
+<pre><code>## SpearmanrResult(correlation=0.6, pvalue=0.28475697986529375)</code></pre>
+<p>Both of the participant’s rates seem to have a moderate ascendent tendency. It means that both of them think that the coffee have a good quality</p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li><p>Does Spearman’s R differ depending on whether ranks are assigned in a decreasing or increasing order? No, it don’t. It does not matter wheter we choose an ascending or descending order of the ranks, the value remains the same</p></li>
+<li><p>Suppose the coffee can only be rated as either good (<span class="math inline">\(&gt;5\)</span>) or bad (<span class="math inline">\(\leq5\)</span>). Do the chances of a good rating differ between the two journalists?</p></li>
+</ol>
+<pre class="r"><code># r 
+data_exercise41[, 2:3] &lt;- ifelse(data_exercise41[, 2:3] &gt; 5, &quot;Good&quot;, &quot;Bad&quot;)
+data_exercise41 &lt;- data.frame(&quot;quality&quot; = c(data_exercise41$x, data_exercise41$y), 
+                                              &quot;enthusiast&quot; = c(rep(&quot;x&quot;, 5), rep(&quot;y&quot;, 5)))
+identity_m41 &lt;- table(data_exercise41$quality, data_exercise41$enthusiast)
+(identity_m41[1, 1]*identity_m41[2, 2]) / (identity_m41[1, 2]*identity_m41[2, 1])</code></pre>
+<pre><code>## [1] 2.666667</code></pre>
+<pre class="python"><code># python
+data_exercise41[&#39;x&#39;] = data_exercise41[&#39;x&#39;].apply(lambda x: 1 if x &gt; 5 else 0)
+data_exercise41[&#39;y&#39;] = data_exercise41[&#39;y&#39;].apply(lambda x: 1 if x &gt; 5 else 0)
+
+contingency_data = pd.DataFrame({&quot;quality&quot;: np.concatenate((data_exercise41[&#39;x&#39;], data_exercise41[&#39;y&#39;])), &quot;enthusiast&quot;:np.concatenate((np.repeat(&quot;x&quot;, 5), np.repeat(&quot;y&quot;, 5)))})
+
+contingency_data = pd.crosstab(contingency_data[&#39;quality&#39;], contingency_data[&#39;enthusiast&#39;], margins = False)
+
+(contingency_data.iloc[0, 0] * contingency_data.iloc[1, 1])/(contingency_data.iloc[0, 1] * contingency_data.iloc[1, 0])</code></pre>
+<pre><code>## 2.6666666666666665</code></pre>
 </div>
 <div id="exercise-4.2" class="section level2">
 <h2>Exercise 4.2</h2>
