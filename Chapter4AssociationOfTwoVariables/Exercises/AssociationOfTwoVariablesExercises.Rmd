@@ -7,6 +7,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
 library(dplyr)
 library(reticulate)
 reticulate::use_condaenv("py38")
@@ -56,6 +57,12 @@ identity_m41
 (identity_m41[1, 1]*identity_m41[2, 2]) / (identity_m41[1, 2]*identity_m41[2, 1])
 ```
 
+
+```{r include=FALSE}
+rm(data_exercise41)
+rm(identity_m41)
+```
+
 ```{python}
 # python
 data_exercise41['x'] = data_exercise41['x'].apply(lambda x: 1 if x > 5 else 0)
@@ -68,6 +75,11 @@ contingency_data
 
 (contingency_data.iloc[0, 0] * contingency_data.iloc[1, 1])/(contingency_data.iloc[0, 1] * contingency_data.iloc[1, 0])
 ```
+```{python include=FALSE}
+del data_exercise41
+del contingency_data
+```
+
 That means that the chance of rating a coffee as good is twice as likely for person X compared to person Y
 
 
@@ -144,12 +156,21 @@ xsquare
 
 (data_exercise42.iloc[0, 0] * data_exercise42.iloc[1, 1])/(data_exercise42.iloc[0, 1] * data_exercise42.iloc[1, 0])
 ```
+```{python include=FALSE}
+del data_exercise42
+del xsquare, pvalue, degreeF, expected 
+```
+
+
 The chances of be satisfied are 1.84 times higher for individuals with car compared with individual with motorbike 
 
 ### c. Compare the results from (a) and (b).
 
 In both of the results, the association between the two variables is weak. Although, when we combined the categories "Car" and "Car (diesel engine)" the association was lower. The odds ratio give us a clear interpretation, but we should determinate if this is trustworthy 
 
+```{r include=FALSE}
+rm(data_exercise42)
+```
 
 ## Exercise 4.3 
 
@@ -239,23 +260,146 @@ plt.show()
 cor(data_exercise43$speed_limit, data_exercise43$traffic_deaths, method = 'pearson')
 ```
 
+```{r include=FALSE}
+rm(data_exercise43)
+```
+
 ```{python}
 # --------------------- python --------------------------------
 # Bravais-Pearson Correlation coefficient 
 stats.pearsonr(data_exercise43["speed_limit"], data_exercise43["traffic_deaths"])
 ```
+
+```{python include=FALSE}
+del data_exercise43
+```
+
+
 When we added the last point to the dataframe, this modifies the linear relation between the two variables due to that value is low. 
 
 ## Exercise 4.4 
 
 The famous passenger liner Titanic hit an iceberg in 1912 and sank. A total of 337 passengers travelled in first class, 285 in second class, and 721 in third class. In addition, there were 885 staff members on board. Not all passengers could be rescued. Only the following were rescued: 135 from the first class, 160 from the second class, 541 from the third class and 674 staff.
 
-a. Determine and interpret the contingency table for the variables “travel class” and “rescue status”.
-b. Use a contingency table to summarize the conditional relative frequency distributions of rescue status given travel class. Could there be an association of the two variables?
-c. What would the contingency table from (a) look like under the independence assumption? Calculate Cramer’s V statistic. Is there any association between travel class and rescue status?
-d. Combine the categories “first class” and “second class” as well as “third class” and “staff”. Create a contingency table based on these new categories. Determine and interpret Cramer’s V , the odds ratio, and relative risks of your choice.
-e. Given the results from (a) to (d), what are your conclusions? 
+#### a. Determine and interpret the contingency table for the variables “travel class” and “rescue status”.
+```{r}
+# --------------------- r --------------------------------
+data_exercise44 <- data.frame(first_class = c(135, 202, 337), second_class = c(160, 125, 285), 
+                              third_class = c(541, 180, 721), staff = c(674, 211, 885),
+                              total = c(1510, 718, 2228), 
+                              row.names = c("Rescued", "NotRescued", "Total"))
 
+kable(data_exercise44)
+```
+
+```{python}
+# --------------------- python --------------------------------
+data_exercise44 = pd.DataFrame({"first_class": [135, 202, 337], 
+                                "second_class": [160, 125, 285],
+                                "third_class": [541, 180, 721],
+                                "staff": [674, 211, 885],
+                                "Total": [1510, 718, 2228]},
+                                index = ["Rescued", "NotRescued", "Total"])
+data_exercise44
+```
+
+
+#### b. Use a contingency table to summarize the conditional relative frequency distributions of rescue status given travel class. Could there be an association of the two variables?
+
+```{r}
+# --------------------- r --------------------------------
+rela_freq_dist <- apply(data_exercise44[1:2, c(1, 2, 3, 4)], 1, function(xi, y){
+    xi / y
+}, y = data_exercise44[3, c(1, 2, 3, 4)])
+rela_freq_dist <- rbind(rescued = rela_freq_dist$Rescued, not_resquet = rela_freq_dist$NotRescued)
+kable(rela_freq_dist)
+```
+
+```{python}
+# --------------------- python --------------------------------
+data_exercise44.iloc[0:2, 0:4] / data_exercise44.iloc[2, 0:4]
+```
+
+If we determine the conditional frequency distribution of the rescue status given the travel class, we could see that there were fewer individuals rescued in the first classes. It could be due to the numbers of passengers in each class, for example, there were more individuals in the staff than in the first class. 
+
+#### c. What would the contingency table from (a) look like under the independence assumption? Calculate Cramer’s V statistic. Is there any association between travel class and rescue status?
+```{r}
+# ----- Expected values under independence 
+chisq.test(data_exercise44[1:2, 1:4])$expected
+
+# -------- Cramer Statistic -------
+chisq_test_44 <- chisq.test(data_exercise44[1:2, 1:4])$statistic
+
+sqrt((chisq_test_44/2228*(2-1)))
+```
+```{python}
+# --------------------- python --------------------------------
+xsquare, pvalue, degreeF, expected = stats.chi2_contingency(data_exercise44.iloc[0:2, 0:4])
+
+# ----- Expected values under independence 
+expected
+
+# -------- Cramer Statistic -------
+np.sqrt(xsquare/2228*(2-1))
+```
+
+If we consider the Cramer's V statistic, there are a wear relation between the travel class and rescue status 
+
+
+#### d. Combine the categories “first class” and “second class” as well as “third class” and “staff”. Create a contingency table based on these new categories. Determine and interpret Cramer’s V , the odds ratio, and relative risks of your choice.
+```{r}
+# -------------------- r---------------------------
+data_exercise44 <- cbind(first_second = data_exercise44[1:2, 1] + data_exercise44[1:2, 2], 
+                         third_staff = data_exercise44[1:2, 3] + data_exercise44[1:2, 4])
+row.names(data_exercise44) <- c("Rescued", "NotRescued")
+
+kable(data_exercise44)
+
+# ----- Cramer's V statistic
+chisq.test(data_exercise44)$expected
+chisq_test_44 <- chisq.test(data_exercise44)$statistic
+
+sqrt((chisq_test_44/2228*(2-1)))
+
+# ------- Odds ratio -------
+(data_exercise44[1, 1]*data_exercise44[2, 2]) / (data_exercise44[1, 2]*data_exercise44[2, 1])
+
+# Relative risk of Rescued given the travel class
+(data_exercise44[1, 1]/(data_exercise44[1, 1] + data_exercise44[2, 1])) / 
+    (data_exercise44[1, 2]/(data_exercise44[1, 2] + data_exercise44[2, 2]))
+```
+
+```{r include=FALSE}
+rm(data_exercise44)
+rm(rela_freq_dist)
+```
+
+```{python}
+# --------------------- python --------------------------------
+data_exercise44["first_second"] = data_exercise44.iloc[0:3, 0:2].sum(axis = 1)
+data_exercise44["third_staff"] = data_exercise44.iloc[0:3, 2:4].sum(axis = 1)
+
+data_exercise44 = data_exercise44.iloc[0:2, 5:7]
+
+# ----- Cramer's V statistic
+xsquare, pvalue, degreeF, expected = stats.chi2_contingency(data_exercise44.iloc[0:2, 0:2])
+np.sqrt(xsquare/2228*(2-1))
+
+# ------- Odds ratio -------
+(data_exercise44.iloc[0, 0] * data_exercise44.iloc[1, 1])/(data_exercise44.iloc[0, 1] * data_exercise44.iloc[1, 0])
+```
+
+
+```{python include=FALSE}
+del data_exercise44
+del xsquare, pvalue, degreeF, expected
+```
+
+
+#### e. Given the results from (a) to (d), what are your conclusions? 
+
+Even when we merged the categories the weak relation remains. In none of the the correlation coefficients the data demonstrated a correlation between the variables. 
+If we focus in the relative risk, each category is similar. 
 
 ## Exercise 4.5 
 
@@ -266,9 +410,66 @@ To study the association of the monthly average temperature (in °C, X) and hote
 ![data](Images/2.png)
 
 a. Calculate the Bravais–Pearson correlation coefficient. The following summary statistics are available: $\sum_{i=1}^{36}x_iy_i = 22$, $\bar{x} = 12.22$, $\bar{y} = 51.28$, $\tilde{s}_x^2 = 76.95$ and $\tilde{s}_y^2 = 706.98$
+```{r}
+Sxy <- 22776 - 36*(12.22*51.28)
+Sxx <- 76.95*36
+Syy <- 706.98*36
+Sxy/sqrt(Sxx*Syy)
+```
+
+If we consider this correlation coefficient, we could say that there is not a relation between both variables 
+
 b. Interpret the scatter plot in Fig. 4.7 which visualizes temperature and hotel occupancy for Davos (D), Polenca (P), and Basel (B).
+There is not a tendency from all the data together. But if we see the values of each category, we could see a weak tendency in each one of them. 
+
 c. Use R to calculate the correlation coefficient separately for each city. Interpret the results and discuss the use of the correlation coefficient if more than two variables are available.
 
+```{r}
+# --------------------- r --------------------------------
+data_exercise45 <- data.frame(Months = rep(c("Jan", "Feb", "Mar", 
+                                                "Apr", "May", "Jun", "Jul", "Aug", 
+                                                "Sep", "Oct", "Nov", "Dec"), 3),
+                              X = c(-6, -5, 2, 4, 7, 15, 17, 19, 13, 9, 4, 0, 10, 10, 
+                                    14, 17, 22, 24, 26, 27, 22, 19, 14, 12, 1, 0, 
+                                    5, 9, 14, 20, 23, 24, 21, 14, 9, 4),
+                              Y = c(91, 89, 76, 52, 42, 36, 37, 39, 26, 27, 68, 92, 
+                                    13, 21, 42, 64, 79, 81, 86, 92, 36, 23, 12, 41, 
+                                    23, 82, 40, 45, 39, 43, 50, 95, 64, 78, 9, 12), 
+                              City = c(rep("Davos", 12), rep("Polenca", 12), rep("Basel", 12)))
+
+
+data_exercise45 %>% group_by(City) %>% summarize(cor(X, Y, method = "pearson"))
+```
+```{python}
+# --------------------- python --------------------------------
+data_exercise45 = pd.DataFrame({"Months": np.repeat([["Jan", "Feb", "Mar", 
+                                                "Apr", "May", "Jun", "Jul", "Aug", 
+                                                "Sep", "Oct", "Nov", "Dec"]], 3, 0).reshape((36, )), 
+                                "X":[-6, -5, 2, 4, 7, 15, 17, 19, 13, 9, 4, 0, 10, 10, 
+                                    14, 17, 22, 24, 26, 27, 22, 19, 14, 12, 1, 0, 
+                                    5, 9, 14, 20, 23, 24, 21, 14, 9, 4],
+                                "Y": [91, 89, 76, 52, 42, 36, 37, 39, 26, 27, 68, 92, 
+                                    13, 21, 42, 64, 79, 81, 86, 92, 36, 23, 12, 41, 
+                                    23, 82, 40, 45, 39, 43, 50, 95, 64, 78, 9, 12],
+                                "City": np.repeat(["Davos", "Polenca", "Basel"], 12)})
+```
+
+```{python}
+data_exercise45.pipe(lambda x: x.groupby("City")).apply(lambda x: (stats.pearsonr(x.X, x.Y)))
+```
+
+
+
+
+```{r include=FALSE}
+rm(data_exercise45)
+```
+
+```{python include=FALSE}
+del data_exercise45
+```
+In the Spearman correlation coefficient for each group we can see a pattern in the Davos and Polenca cities. In the first one, has a negative tendency and in the next one has a positive tendency. On the other hand, the city Basel seems do not have a linear correlation. 
+In general, when we apply measures of correlation on a group, that have a particular tendency each one of them, the correlation coefficient will not be representative. 
 
 ## Exercise 4.6 
 
@@ -276,21 +477,71 @@ Consider a neighbourhood survey on the use of a local park. Respondents were ask
 
 ![data2](Images/3.png)
 
-(a) Calculate and interpret Goodman and Kruskal’s $\gamma$.
-(b) Now ignore the ordinal structure of the data and calculate Cramer’s $V$ .
-(c) Create the contingency table which is obtained when the categories “no opinion” and “agree” are combined.
-(d) What is the relative risk of disagreement with summer concerts depending on the opinion about using leads?
-(e) Calculate the odds ratio and offer two interpretations of it.
-(f) Determine γ for the table calculated in (c).
-(g) What is your final interpretation and what may be the best measure to use in this example?
+```{r}
+# --------------------- r --------------------------------
+data_exercise46 <- data.frame(dog_agree = c(82, 8, 0, 90), dog_no_opinion = c(4, 43, 2, 49), 
+                              dog_disagre = c(0, 9, 10, 19), dog_total = c(86, 60, 12, 158), 
+                              row.names = c("con_agree", "con_no_opinion", "con_disagree", "con_total"))
+```
 
+```{python}
+# --------------------- python --------------------------------
+data_exercise46 = pd.DataFrame({"dog_agree": [82, 8, 0, 90], "dog_no_opinion":[4, 43, 2, 49],
+                                "dog_disagree": [0, 9, 10, 19], "dog_total":[86, 60, 12, 158]},
+                                index = ["con_agree", "con_no_opinion", "con_disagree", "con_total"])
+```
+
+
+
+
+#### a) Calculate and interpret Goodman and Kruskal’s $\gamma$.
+```{r}
+library(ryouready)
+ord.gamma(as.matrix(data_exercise46[1:3, 1:3]))
+```
+
+
+#### b) Create the contingency table which is obtained when the categories “no opinion” and “agree” are combined.
+```{r}
+# --------------------- r --------------------------------
+data_exercise46 <- rbind(data_exercise46[-c(1,2), ], con_agree_onot = data_exercise46[1, ] + data_exercise46[2, ])
+data_exercise46 <- cbind(data_exercise46[, c(3, 4)], dog_agree_onot = data_exercise46[, 1] + data_exercise46[, 2])
+
+data_exercise46 <- data_exercise46[c(3, 1, 2), c(3, 1, 2)]
+```
+
+```{python}
+# --------------------- python --------------------------------
+data_exercise46 =  data_exercise46.append(data_exercise46.iloc[0:2, 0:4].sum(axis = 0), 
+                                            ignore_index = True).iloc[[4, 2, 3]]
+data_exercise46["dog_agree_onot"] = data_exercise46.iloc[0:3, 0:2].sum(axis = 1)
+
+data_exercise46 = data_exercise46.iloc[:, [4, 2, 3]]
+data_exercise46.rename(index = {4: "con_agree_onot", 2:"con_disagree", 3:"con_total"})
+```
+
+#### c) What is the relative risk of disagreement with summer concerts depending on the opinion about using leads?
+```{r}
+(data_exercise46[2, 1]/data_exercise46[3, 1])/(data_exercise46[2, 2]/data_exercise46[3, 2])
+```
+
+
+#### d) Calculate the odds ratio and offer two interpretations of it.
+
+#### e) Determine $\gamma$ for the table calculated in (c).
+
+#### f) What is your final interpretation and what may be the best measure to use in this example?
+
+
+```{r include=FALSE}
+rm(data_exercise46)
+```
+
+```{python include=FALSE}
+del data_exercise46
+```
 
 ## Exercise 4.7 
-
-Consider n observations for which yi = a + bx i , b > 0, holds. Show that r = 1.
-
-
-## Exercise 4.8 
 
 Make yourself familiar with the Olympic decathlon data described in Appendix A.4. Read in and attach the data in R.
 
@@ -300,7 +551,7 @@ c. Apply the cor command to the whole data and interpret the output.
 d. Omit the two rows which contain missing data and interpret the output again.
 
 
-## Exercise 4.9 
+## Exercise 4.8 
 
 We are interested in the pizza delivery data which is described in Appendix A.4.
 
