@@ -524,13 +524,23 @@ data_exercise46.rename(index = {4: "con_agree_onot", 2:"con_disagree", 3:"con_to
 ```{r}
 (data_exercise46[2, 1]/data_exercise46[3, 1])/(data_exercise46[2, 2]/data_exercise46[3, 2])
 ```
-
+People who disagree with using the park for concerns are 0.03 times lower in the group of people who agree with the dogs owners should put their dogs on a lead than who disagree. 
 
 #### d) Calculate the odds ratio and offer two interpretations of it.
+```{r}
+(data_exercise46[1, 1]*data_exercise46[2, 2]) / (data_exercise46[1, 2]*data_exercise46[2, 1])
+```
+The chances of not disagreeing with using the park for concerns is 76 times higher for those who do not disagree with that the dogs owners should put their dogs on a lead. 
+
 
 #### e) Determine $\gamma$ for the table calculated in (c).
+```{r}
+library(ryouready)
+ord.gamma(as.matrix(data_exercise46[1:2, 1:2]))
+```
 
 #### f) What is your final interpretation and what may be the best measure to use in this example?
+With the help of the Goodman and Kruskal’s $\gamma$, we could say that the agreement with both questions is strongly related, due to the value is high. Measures like the relative risks and odds ratios give us an interpretation easier to understand but we can not plenty rely on them. 
 
 
 ```{r include=FALSE}
@@ -544,22 +554,146 @@ del data_exercise46
 ## Exercise 4.7 
 
 Make yourself familiar with the Olympic decathlon data described in Appendix A.4. Read in and attach the data in R.
+```{r}
+data_exercise47 <- read.csv("../../Data/decathlon.csv", row.names = 1)
+summary(data_exercise47)
+head(data_exercise47, 5)
+str(data_exercise47)
+```
+
+```{python}
+data_exercise47 = pd.read_csv("../../Data/decathlon.csv", encoding= 'unicode_escape', index_col = 0)
+data_exercise47.head()
+data_exercise47.info()
+data_exercise47.describe()
+```
+
 
 a. Use R to calculate and interpret the Bravais–Pearson correlation coefficient between the results of the discus and the shot-put events.
-b. There are 10 continuous variables. How many different correlation coefficients can you calculate? How would you summarize them?
-c. Apply the cor command to the whole data and interpret the output.
-d. Omit the two rows which contain missing data and interpret the output again.
+```{r}
+# --------------------- r --------------------------------
+good <- complete.cases(data_exercise47)
+data_exercise47 <- data_exercise47[good, ]
+cor(data_exercise47$X.Discus, data_exercise47$X.Shot.put, method = 'pearson')
+```
 
+```{python}
+# --------------------- python -------------------------------
+data_exercise47 = data_exercise47.dropna(axis=0)
+stats.pearsonr(data_exercise47["X.Discus"], data_exercise47["X.Shot.put"])
+```
+There is a moderate relation between the variables. 
+
+b. There are 10 continuous variables. How many different correlation coefficients can you calculate? How would you summarize them?
+If we consider that the correlation coefficient considers two variables, there are 45 possible measurements. 
+To show the correlation of each pair, we could make a correlation matrix: 
+```{r}
+# --------------------- r --------------------------------
+corr <- cor(data_exercise47, method = 'pearson')
+corr
+```
+```{python}
+# --------------------- python --------------------------------
+corr = stats.spearmanr(data_exercise47)
+corr
+```
+
+```{r include=FALSE}
+rm(data_exercise47)
+```
+
+```{python include=FALSE}
+del data_exercise47
+```
 
 ## Exercise 4.8 
 
 We are interested in the pizza delivery data which is described in Appendix A.4.
+```{r}
+# --------------------- r --------------------------------
+data_exercise48 <- read.csv("../../Data/pizza_delivery.csv")
+summary(data_exercise48)
+head(data_exercise48, 5)
+str(data_exercise48)
+```
+
+```{python}
+# --------------------- python --------------------------------
+data_exercise48 = pd.read_csv("../../Data/pizza_delivery.csv", encoding= 'unicode_escape')
+data_exercise48.head()
+data_exercise48.info()
+data_exercise48.describe()
+```
 
 a. Read in the data and create two new binary variables which describe whether a pizza was hot ($>$ 65 °C) and the delivery time was short ($<$ 30 min). Create a contingency table for the two new variables.
+```{r}
+# --------------------- r --------------------------------
+data_exercise48 <-  data_exercise48 %>% 
+                        mutate(temp_bin = ifelse(data_exercise48$temperature > 65, 
+                                                 "Hot", "NotHot"), 
+                               time_bin = ifelse(data_exercise48$time < 30, "Less30", "More30"))
+
+contingency <- table(data_exercise48$temp_bin, data_exercise48$time_bin)
+contingency
+```
+
+```{python}
+# --------------------- python --------------------------------
+data_exercise48["temp_bin"] = data_exercise48["temperature"].apply(lambda x: "Hot" if x > 65 else "NotHot")
+data_exercise48["time_bin"] = data_exercise48["time"].apply(lambda x: "Less30" if x < 30 else "More30")
+
+contingency = pd.crosstab(data_exercise48["temp_bin"], data_exercise48["time_bin"], margins = False)
+contingency 
+```
+
+
 b. Calculate and interpret the odds ratio for the contingency table from (a).
+```{r}
+# --------------------- r --------------------------------
+(contingency[1, 1]*contingency[2, 2]) / (contingency[1, 2]*contingency[2, 1])
+```
+The chances to have a cold pizza is 5 times higher if the delivery time is high
+
 c. Use Cramer’s $V$ , Stuart’s $\tau_c$ , Goodman and Kruskal’s $\gamma$, and a stacked bar chart to explore the association between the categorical time and temperature variables.
+```{r}
+# ----- cramers V -----
+chisq <- chisq.test(contingency)$statistic
+
+sqrt((chisq/1266*(2-1)))
+
+# ---- stuart tau -----
+library(ryouready)
+ord.tau(contingency)
+
+# ---- Goodman gamma -----
+ord.gamma(contingency)
+```
+This show that the variable have a moderate-to-weak relation between them. 
+
+
 d. Draw a scatter plot for the continuous time and temperature variables. Determine both the Bravais–Pearson and Spearman correlation coefficients.
+```{r}
+# ------ Brabais-Pearson -----
+cor(data_exercise48$temperature, data_exercise48$time, method = 'pearson')
+
+# ------- Spearman ---------
+cor(data_exercise48$temperature, data_exercise48$time, method = 'spearman')
+
+plot(data_exercise48$temperature, data_exercise48$time, pch = 19)
+```
+In general, the data show a weak negative tendency, it means, if is high the delivery time so the temperature tends to be low. 
+
+
 e. Use methods of your choice to explore the relationship between temperature and driver, operator, number of ordered pizzas and bill. Is it clear which of the variables influence the pizza temperature?
+```{r}
+boxplot(data_exercise48$temperature~data_exercise48$drive)
+boxplot(data_exercise48$temperature~data_exercise48$operator)
+plot(data_exercise48$temperature, data_exercise48$pizzas)
+cor(data_exercise48$temperature, data_exercise48$pizzas, method = "pearson")
+
+plot(data_exercise48$temperature, data_exercise48$bill)
+cor(data_exercise48$temperature, data_exercise48$bill, method = "pearson")
+```
 
 
 
