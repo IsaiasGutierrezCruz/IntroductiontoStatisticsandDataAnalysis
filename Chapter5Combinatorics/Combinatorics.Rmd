@@ -1,0 +1,81 @@
+---
+title: "Combinatorics Exercises"
+author: "Abel Isaias Gutierrez-Cruz"
+date: "25/10/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Exercise 5.1 
+At a party with 10 guests, every guest shakes hands with each other guest. How many handshakes can be counted in total?
+
+It does not make sense that the guests could shake hands with themselves, so replacement is not relevant. 
+$\begin{pmatrix} 10 \\ 2 \end{pmatrix}$
+```{r}
+choose(10, 2)
+```
+
+## Exercise 5.2 
+“Gobang” is a popular game in which two players set counters on a board with 381 knots. One needs to place 5 consecutive counters in a row to win the game. There are also rules on how to remove counters from the other player. Consider a match where 64 counters have already been placed on the board. How many possible combinations exist to place 64 counters on the board?
+
+Each time that you put a counter in a knot, that position will not be taken. 
+$\begin{pmatrix} 381 \\ 64 \end{pmatrix}$
+```{r}
+choose(381, 64)
+```
+
+
+
+## Exercise 5.3 
+A shop offers a special tray of beer: “Munich’s favourites”. Customers are allowed to fill the tray, which holds 20 bottles, with any combination of Munich’s 6 most popular beers (from 6 different breweries).
+a. What are the number of possible combinations to fill the tray?
+The customers could choose a beer more than one time, so we should consider replacement. The order is not important. 
+$n = 6$ and $m=20$
+$\begin{pmatrix} n + m -1 \\ m \end{pmatrix} = \begin{pmatrix} 6 + 20 -1 \\ 20 \end{pmatrix}$
+```{r}
+choose(25, 20)
+```
+
+b. A customer insists of having at least one beer from each brewery in his tray. How many options does he have to fill the tray?
+That customer already choose 6 positions out of 20, so we already only have 14 positions
+$\begin{pmatrix} n + m -1 \\ m \end{pmatrix} = \begin{pmatrix} 6 + 14 -1 \\ 14 \end{pmatrix}$
+```{r}
+choose(19, 14)
+```
+
+
+
+## Exercise 5.4 
+The FIFA World Cup 2018 in Russia consists of 32 teams. How many combinations for the top 3 teams exist when
+a. taking into account the order of these top 3 teams and
+```{r}
+choose(32, 3)*factorial(3)
+```
+
+b. without taking into account the order of these top 3 teams?
+```{r}
+choose(32, 3)
+```
+
+
+## Exercise 5.5 
+An online book store assigns membership codes to each member. For administrative reasons, these codes consist of four letters between “A” and “L”. A special discount period increased the total number of members from 18, 200 to 20, 500. Are there enough combinations of codes left to be assigned for the new membership codes?
+```{r}
+num <- length(LETTERS[LETTERS <= "L"])
+num**4
+```
+There are enough codes
+
+
+## Exercise 5.6 
+In the old scoring system of ice skating (valid until 2004), each member of a jury of 9 people judged the performance of the skaters on a scale between 0 and 6. It was a decimal scale and thus scores such as 5.1 and 5.2 were possible. Calculate the number of possible score combinations from the jury.
+$n=61$ and $m=9$
+```{r}
+61**9
+```
+
+
+
