@@ -1,0 +1,171 @@
+---
+title: "Random Variables"
+author: "Abel Isaias Gutierrez-Cruz"
+date: "29/11/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Exercise 7.1 
+
+Consider the following cumulative distribution function of a random variable X :
+
+$F(x) = \left\{ \begin{array}{ll} 0 & if \enspace x < 2 \\ -\dfrac{1}{4}x^2 + 2x - 3 & if \enspace 2 \leq x \leq 4 \\  1 & if \enspace x > 4 \end{array}  \right.$
+
+##### a. What is the PDF of X ?
+
+$\frac{d}{dx}0 = 0$
+
+$\frac{d}{dx} -\dfrac{1}{4}x^2 + 2x - 3 = - \frac{1}{2}x + 2$
+
+$\frac{d}{dx} 1 = 0$
+
+$\therefore F'(X) = \left\{ \begin{array}{ll} 0 & if \enspace x < 2 \\ -\dfrac{1}{2}x + 2 & if \enspace 2 \leq x \leq 4 \\  0 & if \enspace x > 4 \end{array}  \right.$
+
+##### b. Calculate P(X < 3) and P(X = 4).
+
+- Given theorem $P(X=x_0) = 0$ $P(X=4) = 0$
+
+- $P(X<3) = P(X \leq 3) - P(X=3) = -\dfrac{1}{4}*3^2 + 2*3 - 3 - 0 =$ `r -(1/4)*(3**2) + 2*3 - 3` 
+
+
+##### c. Determine $E(X)$ and $Var(X)$
+
+$E(X) = \displaystyle{\int_{-\infty}^\infty x f(x) dx = \int_{-\infty}^2 xf(x)dx + \int_2^4 x f(x)dx + \int_4^\infty xf(x)dx}$
+
+$\displaystyle{=0 + \int_2^4 (-\frac{1}{2}x^2 + 2x) dx + 0 = \left[ - \frac{x^3}{6} + x^2 \right]^4_2 = (-\frac{4^3}{6} + 4^2) - (-\frac{2^3}{6} + 2^2)} = \frac{8}{3}=$ `r (-64/6 + 16) - (-8/6 + 4)`
+
+
+$\displaystyle{Var(X) = E(X^2) - [E(X)]^2}$
+
+$\displaystyle{E(X^2) = \int_2^4 (-\frac{1}{2}x^3 + 2x^2) dx = \left[ -\frac{x^4}{8} + \frac{2}{3}x^3 \right]_2^4 = (-\frac{4^4}{8} +\frac{2}{3}4^3)- (- \frac{2^4}{8} + \frac{2}{3}2^3) =\frac{22}{3} =}$ `r (- (4**4)/8 + (2/3)*(4**3)) - (- (2**4)/8 + (2/3)*(2**3))`
+
+$Var(X) = \frac{22}{3} - (\frac{8}{3})^2 =\frac{2}{9}$
+
+
+## Exercise 7.2 
+Joey manipulates a die to increase his chances of winning a board game against his friends. In each round, a die is rolled and larger numbers are generally an advantage. Consider the random variable X denoting the outcome of the rolled die and the respective probabilities $P(X = 1 = 2 = 3 = 5) = 1/9$, $P(X = 4) = 2/9$, and $P(X = 6) = 3/9$
+
+##### a. Calculate and interpret the expectation and variance of X .
+
+$E(X)=\sum\limits_{i=1}^kx_ip_i=x_1P(X=x_1)+x_2P(X=x_2)+ ... + x_kP(X=x_k) \tag{16}$
+
+$E(X) = \sum\limits_{i=1}^6x_ip_i = (1 + 2 + 3 +5)\frac{1}{9}  + 4 \cdot \frac{2}{9} + 6  \cdot \frac{3}{9} = \frac{37}{9} \approx$ `r 37/9`
+
+$E(X^2) = \sum\limits_{i=1}^6x_ip_i = (1^2 + 2^2 + 3^2 +5^2)\frac{1}{9}  + 4^2 \cdot \frac{2}{9} + 6^2  \cdot \frac{3}{9} = \frac{179}{9} \approx$ `r 179/9`
+
+$\displaystyle{Var(X) = E(X^2) - [E(X)]^2}$
+
+$Var(X) = \frac{179}{9} - (\frac{37}{9})^2 = \frac{241}{81} \approx$ `r 241/81`
+
+When the players rolling the dies, they will have in average the following result: 4.11. Therefore, they will have higher number than with a normal die.
+On the other hand, the variance was not modified. 
+
+
+##### b. Imagine that the board game contains an action which makes the players use $1/X$ rather than $X$ . What is the expectation of $Y = 1/X$ ? Is $E(Y ) = E(1/ X ) = 1/E(X)$?
+
+Given the prior instructions: 
+$P(X = \frac{1}{1} = \frac{1}{2} = \frac{1}{3} = \frac{1}{5}) = 1/9$, $P(X = \frac{1}{4}) = 2/9$, and $P(X = \frac{1}{6}) = 3/9$
+
+$E(Y) = \sum\limits_{i=1}^6x_ip_i = (1 + \frac{1}{2} + \frac{1}{3} +\frac{1}{5})\frac{1}{9}  + \frac{1}{4} \cdot \frac{2}{9} + \frac{1}{6}  \cdot \frac{3}{9} = \frac{91}{270} \approx$ `r 91/270`
+
+If we consider the part a), we will realize that both expression are different 
+$\frac{1}{E(X)} = \frac{37}{9} \neq \frac{91}{270}$
+
+
+## Exercise 7.3 
+
+An innovative winemaker experiments with new grapes and adds a new wine to his stock. The percentage sold by the end of the season depends on the weather and various other factors. It can be modelled using the random variable $X$ with the CDF as
+
+$F(x) = \left\{ \begin{array}{ll} 0 & if \enspace x < 0 \\ 3x^2 + 2x^3 & if \enspace 0 \leq x \leq 1 \\  1 & if x > 1 \end{array}  \right.$
+
+##### a. Plot the cumulative distribution function with R.
+##### b. Determine $f(x)$
+##### c. What is the probability of selling at least one-third of his wine, but not more than two thirds?
+##### d. Define the CDF in R and calculate the probability of c) again.
+##### e. What is the variance of X?
+
+## Exercise 7.4 
+
+A quality index summarizes different features of a product by means of a score. Different experts may assign different quality scores depending on their experience with the product. Let $X$ be the quality index for a tablet. Suppose the respective probability density function is given as follows:
+
+
+$f(x) = \left\{ \begin{array}{ll} cx(2-x) & if \enspace 0 \leq 0 x \leq 2 \\ 0 & elsewhere \end{array} \right.$
+
+##### a. Determine c such that $f(x)$ is a proper PDF.
+##### b. Determine the cumulative distribution function.
+##### c. Calculate the expectation and variance of X .
+##### d. Use Tschebyschev’s inequality to determine the probability that X does not deviate more than 0.5 from its expectation.
+
+
+## Exercise 7.5
+
+Consider the joint PDF for the type of customer service $X (0 = telephonic  \enspace hotline, \enspace 1 = Email)$ and of satisfaction score $Y (1 = unsatisfied, \enspace 2 = satisfied, \enspace 3 = very \enspace satisfied)$:
+
+X/Y | 1 | 2 | 3
+--- | --- | --- | ---
+0 | 0 | 1/2 | 1/4 
+1 | 1/6 | 1/12 | 0 
+
+##### a. Determine and interpret the marginal distributions of both X and Y .
+##### b. Calculate the 75 $\%$ quantile for the marginal distribution of Y .
+##### c. Determine and interpret the conditional distribution of satisfaction level for $X = 1$.
+##### d. Are the two variables independent?
+##### e. Calculate and interpret the covariance of $X$ and $Y$ .
+
+## Exercise 7.6 
+
+Consider a continuous random variable X with expectation 15 and variance 4. Determine the smallest interval $[15 − c, 15 + c]$ which contains at least 90 $\%$ of the values of X .
+
+## Exercise 7.7 
+
+Let X and Y be two random variables for which only 6 possible events— $A1, A2, A3, A4, A5, A6$—are defined:
+
+i | 1 | 2 | 3 | 4 | 5 | 6
+--- | --- | --- | --- | --- | --- | ---
+$P(A_i)$ | 0.3 | 0.1 | 0.1 | 0.2 | 0.2 | 0.1 
+$X_i$ | -1 | 2 | 2 | -1 | -1 | | 2
+$Y_i$ | 0 | 2 | 0 | 1 | 2 | 1 
+
+##### a. What is the joint PDF of $X$ and $Y$?
+##### b. Calculate the marginal distributions of $X$ and $Y$
+##### c. Are both variables independent?
+##### d. Determine the joint PDF for $U = X + Y$
+##### e. Calculate $E(U)$ and $Var(U)$ and compare it with $E(X) + E(Y)$ and $Var(X) + Var(Y)$, respectively.
+
+## Exercise 7.8 
+
+Recall the urn model we introduced in Chap. 5. Consider an urn with eight balls: four of them are white, three are black, and one is red. Now, two balls are drawn from the urn. The random variables $X$ and $Y$ are defined as follows:
+
+$X = \left\{ \begin{array}{ll} 1 & black \enspace ball \\ 2 & red \enspace ball \enspace in \enspace the \enspace first \enspace draw \\ 3 & whtie \enspace ball \end{array} \right.$
+
+$Y = \left\{ \begin{array}{ll} 1 & black \enspace ball \\ 2 & red \enspace ball \enspace in \enspace the \enspace second \enspace draw \\ 3 & whtie \enspace  ball \end{array} \right.$
+
+##### a.When are $X$ and $Y$ independent—when the two balls are drawn with replacement or without replacement?
+##### b. Assume the balls are drawn such that $X$ and $Y$ are dependent. Use the conditional distribution $P(Y |X)$ to determine the joint PDF of $X$ and $Y$
+##### c. Calculate $E(X)$, $E(Y)$, and $ρ(X, Y)$
+
+## Exercise 7.9 
+
+If $X$ is the amount of money spent on food and other expenses during a day (in euros) and $Y$ is the daily allowance of a businesswoman, the joint density of these two variables is given by
+
+
+$f_{XY}(x, y) = \left\{ \begin{array}{ll} c\left( \dfrac{100 -x}{x}\right) & if \enspace 10 \leq x \leq 100, \enspace 40 \leq y \leq 100 \\ 0 & elsewhere  \end{array} \right.$
+
+##### a. Choose $c$ such that $f_{XY}(x, y)$ is a probability density function.
+##### b. Find the marginal distribution of $X$ 
+##### c. Calculate the probability that more than 75 euros are spent.
+##### d. Determine the conditional distribution of $Y$ given $X$
+
+## Exercise 2 7.10 
+
+Consider $n$ i.i.d. random $X$ variables $X_i$ with $E(X_i) = \mu$ and $Var(X_i) = \sigma$ and the standardized variable $Y = \sigma −\mu$ . Show that $E(Y ) = 0$ and $Var(Y ) = 1$
+
+
+
+
+
+
