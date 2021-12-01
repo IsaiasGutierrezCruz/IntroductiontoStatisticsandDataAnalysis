@@ -78,27 +78,81 @@ $\frac{1}{E(X)} = \frac{37}{9} \neq \frac{91}{270}$
 
 ## Exercise 7.3 
 
-An innovative winemaker experiments with new grapes and adds a new wine to his stock. The percentage sold by the end of the season depends on the weather and various other factors. It can be modelled using the random variable $X$ with the CDF as
+An innovative winemaker experiments with new grapes and adds a new wine to his stock. The percentage sold by the end of the season depends on the weather and various other factors. It can be modeled using the random variable $X$ with the CDF as
 
-$F(x) = \left\{ \begin{array}{ll} 0 & if \enspace x < 0 \\ 3x^2 + 2x^3 & if \enspace 0 \leq x \leq 1 \\  1 & if x > 1 \end{array}  \right.$
+$F(x) = \left\{ \begin{array}{ll} 0 & if \enspace x < 0 \\ 3x^2 - 2x^3 & if \enspace 0 \leq x \leq 1 \\  1 & if x > 1 \end{array}  \right.$
 
 ##### a. Plot the cumulative distribution function with R.
+To consider the behavior in each interval of the function, we multiply each behavior of the data by a logical condition. 
+```{r}
+cdf <- function(x){(3*x^2 - 2*x^3) * (x >= 0 & x <= 1) + 1*(x>1) + 0*(x<0)}
+curve(cdf, from=-0.5, to=1.5)
+```
+
 ##### b. Determine $f(x)$
+$\frac{d}{dx} F(x)= (3x^2-2x^3)d/dx = 6x - 6x^2$
+$\therefore f(x) = \left\{ \begin{array}{ll} 6(x - x^2) & if \enspace 0 \leq x \leq 1 \\ 0 & elsewhere \end{array} \right.$
+
 ##### c. What is the probability of selling at least one-third of his wine, but not more than two thirds?
+$F(\frac{2}{3}) - F(\frac{1}{3}) = \left( 3(\frac{2}{3})^2 + 2(\frac{2}{3})^3 \right) -  \left( 3(\frac{1}{3})^2 + 2(\frac{1}{3})^3 \right) =$ `r (3*(2/3)^2 - 2*(2/3)^3) - (3*(1/3)^2 - 2*(1/3)^3)`
+
 ##### d. Define the CDF in R and calculate the probability of c) again.
+```{r}
+cdf(2/3) - cdf(1/3)
+```
+
 ##### e. What is the variance of X?
+$\displaystyle E(X) = \int_{-\infty}^\infty xf(x) dx = \int_{-\infty}^0xf(x)dx + \int_0^1xf(x)dx + \int_1^\infty xf(x)dx=$
+
+$\displaystyle 0 + \int_0^1xf(x)dx + 0 = 6\left[ \frac{x^3}{3} - \frac{x^4}{4} \right]^1_0 = 6\left( \frac{1}{3} - \frac{1}{4} \right) =$ `r 2 - 6/4`
+
+$E(X^2) = \displaystyle 0 + \int_0^1x^2f(x)dx + 0 = 6\left[ \frac{x^4}{4} - \frac{x^5}{5} \right]^1_0 = 6\left( \frac{1}{4} - \frac{1}{5} \right) =$ `r 6/4 - 6/5`
+
+$Var(X) = E(X^2) - [E(X)]^2 =0.3 - 0.5^2 =$ `r 0.3 - 0.5^2`
 
 ## Exercise 7.4 
 
 A quality index summarizes different features of a product by means of a score. Different experts may assign different quality scores depending on their experience with the product. Let $X$ be the quality index for a tablet. Suppose the respective probability density function is given as follows:
 
 
-$f(x) = \left\{ \begin{array}{ll} cx(2-x) & if \enspace 0 \leq 0 x \leq 2 \\ 0 & elsewhere \end{array} \right.$
+$f(x) = \left\{ \begin{array}{ll} cx(2-x) & if \enspace 0 \leq x \leq 2 \\ 0 & elsewhere \end{array} \right.$
 
 ##### a. Determine c such that $f(x)$ is a proper PDF.
+
+Conditions: 
+
+- $\int_{-\infty}^\infty f(x)dx = 1$
+$\displaystyle \int_0^2 c \cdot x(2-x) dx = c \int_0^2 2x - x^2 = c \cdot \left[ x^2 - \frac{x^3}{3} \right]_0^2 = c \cdot \frac{4}{3}$
+
+$c \cdot \frac{4}{3} = 1$
+
+$c = \frac{3}{4}$
+
+- $f(x) \geq 0 \enspace for \enspace all \enspace x \in R$
+
+$f(x) = \frac{3}{4} x(2-x) \geq 0 \enspace \forall \enspace  x \in [0, 2]$
+
+
 ##### b. Determine the cumulative distribution function.
+$\displaystyle F(X) = \int_{0}^x f(t) dt = \int_0^x \frac{3}{4}x(2-x)dt = \frac{3}{4} \int_0^x2t - t^2$
+$\displaystyle \frac{3}{4}(t^2 - \frac{t^3}{3}) = \frac{3}{4}x^2(1-\frac{x}{3})$
+
+$\therefore F(X) = \left\{ \begin{array}{ll} 0 & if \enspace x <0 \\ \frac{3}{4}x^2(1-\frac{x}{3}) & if \enspace 0 \leq x \leq 2 \\ 1 & if \enspace x > 2 \end{array} \right.$
+
+
 ##### c. Calculate the expectation and variance of X .
+$\displaystyle E(X) = \int_{-\infty}^\infty x f(x)dx = \frac{3}{4} \int_0^2 (2x^2 - x^3)dx = \frac{3}{4} \cdot \left[ \frac{2x^3}{3} -\frac{x^4}{4}\right]_0^2 =$
+
+$\displaystyle \frac{3}{4} \cdot \left( \frac{16}{3} - 4\right) = \frac{3}{4} \cdot \frac{4}{3} = 1$
+
+$\displaystyle E(X^2) = \int_{-\infty}^\infty x f(x)dx = \frac{3}{4} \cdot \left[ \frac{2x^4}{4} -\frac{x^5}{5}\right]_0^2 = \frac{3}{4} \cdot \left( \frac{32}{4} - \frac{32}{5} \right) = \frac{6}{5}$
+
+$\displaystyle Var(X) = \frac{6}{5} - 1^2 = \frac{1}{5}$
+
+
 ##### d. Use Tschebyschev’s inequality to determine the probability that X does not deviate more than 0.5 from its expectation.
+
+$P(|X - \mu| < 0.5) \geq 1 - \frac{\frac{1}{5}}{0.5^2} = 1 - 0.8 = 0.2$
 
 
 ## Exercise 7.5
