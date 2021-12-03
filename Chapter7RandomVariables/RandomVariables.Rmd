@@ -2,7 +2,9 @@
 title: "Random Variables"
 author: "Abel Isaias Gutierrez-Cruz"
 date: "29/11/2021"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -51,7 +53,7 @@ Joey manipulates a die to increase his chances of winning a board game against h
 
 ##### a. Calculate and interpret the expectation and variance of X .
 
-$E(X)=\sum\limits_{i=1}^kx_ip_i=x_1P(X=x_1)+x_2P(X=x_2)+ ... + x_kP(X=x_k) \tag{16}$
+$E(X)=\sum\limits_{i=1}^kx_ip_i=x_1P(X=x_1)+x_2P(X=x_2)+ ... + x_kP(X=x_k)$
 
 $E(X) = \sum\limits_{i=1}^6x_ip_i = (1 + 2 + 3 +5)\frac{1}{9}  + 4 \cdot \frac{2}{9} + 6  \cdot \frac{3}{9} = \frac{37}{9} \approx$ `r 37/9`
 
