@@ -91,6 +91,7 @@ curve(cdf, from=-0.5, to=1.5)
 
 ##### b. Determine $f(x)$
 $\frac{d}{dx} F(x)= (3x^2-2x^3)d/dx = 6x - 6x^2$
+
 $\therefore f(x) = \left\{ \begin{array}{ll} 6(x - x^2) & if \enspace 0 \leq x \leq 1 \\ 0 & elsewhere \end{array} \right.$
 
 ##### c. What is the probability of selling at least one-third of his wine, but not more than two thirds?
@@ -122,6 +123,7 @@ $f(x) = \left\{ \begin{array}{ll} cx(2-x) & if \enspace 0 \leq x \leq 2 \\ 0 & e
 Conditions: 
 
 - $\int_{-\infty}^\infty f(x)dx = 1$
+
 $\displaystyle \int_0^2 c \cdot x(2-x) dx = c \int_0^2 2x - x^2 = c \cdot \left[ x^2 - \frac{x^3}{3} \right]_0^2 = c \cdot \frac{4}{3}$
 
 $c \cdot \frac{4}{3} = 1$
@@ -135,6 +137,7 @@ $f(x) = \frac{3}{4} x(2-x) \geq 0 \enspace \forall \enspace  x \in [0, 2]$
 
 ##### b. Determine the cumulative distribution function.
 $\displaystyle F(X) = \int_{0}^x f(t) dt = \int_0^x \frac{3}{4}x(2-x)dt = \frac{3}{4} \int_0^x2t - t^2$
+
 $\displaystyle \frac{3}{4}(t^2 - \frac{t^3}{3}) = \frac{3}{4}x^2(1-\frac{x}{3})$
 
 $\therefore F(X) = \left\{ \begin{array}{ll} 0 & if \enspace x <0 \\ \frac{3}{4}x^2(1-\frac{x}{3}) & if \enspace 0 \leq x \leq 2 \\ 1 & if \enspace x > 2 \end{array} \right.$
@@ -164,15 +167,78 @@ X/Y | 1 | 2 | 3
 0 | 0 | 1/2 | 1/4 
 1 | 1/6 | 1/12 | 0 
 
-##### a. Determine and interpret the marginal distributions of both X and Y .
-##### b. Calculate the 75 $\%$ quantile for the marginal distribution of Y .
+##### a. Determine and interpret the marginal distributions of both X and Y
+
+X | $P(X = x_i)$
+--- | ---
+0 | 3/4
+1 | 1/4
+
+Y | $P(Y = y_i)$
+--- | --- 
+1 | 1/6
+2 | 7/12
+3 | 1/4
+
+##### b. Calculate the 75 $\%$ quantile for the marginal distribution of Y
+
+The 75 $\%$ have to follow: 
+
+$F(x_p)\geq p$
+$F(x) < p \enspace for \enspace x < x_p$
+
+If we consider those properties, we will found that the third quartile is $X=2$
+$F(x = 2) = 1/6 + 7/12 = 9/12$
+$F(x=2) \geq 0.75$
+
+
 ##### c. Determine and interpret the conditional distribution of satisfaction level for $X = 1$.
+The conditional distribution is given as follows: 
+$\displaystyle P(Y = y_i | X = 1) = p_{j|i} = \frac{p_{ij}}{p_{1+}} = \frac{p_{ij}}{1/4}$
+
+$P(Y = 1 | X = 1) = \frac{1/6}{1/4} = 2/3$
+
+$P(Y = 2 | X = 1) = \frac{1/12}{1/4} = 1/3$
+
+$P(Y = 3 | X = 1) = \frac{0}{1/4} = 0$
+
+The customers using email like customer services are more uncomfortable. The most of them have a level of satisfaction poor (they are unsatisfied)
+
 ##### d. Are the two variables independent?
+To be independent they have to follow: 
+$P(X = x_i, Y = y_j) = P(X=x_i)P(Y = y_i)$
+
+$P(X = 0, Y = 1) = 3/4 \times 1/6 \neq 0$
+
 ##### e. Calculate and interpret the covariance of $X$ and $Y$ .
+$Cov(X,Y) = E(XY) - E(X)E(Y)$
+
+$E(XY) = \sum_i \sum_j x_iy_ip_{ij}$
+
+$\displaystyle E(X) = \sum\limits_{i=1}^kx_ip_i = x_1P(X=x_1)+x_2P(X=x_2)+ ... + x_kP(X=x_k)$
+
+$E(X) = 0 \cdot 3/4 + 1 \cdot 3/12 = 1/4$
+
+$E(Y) = 1 \cdot 1/6 + 2 \cdot 7/12 + 3 \cdot 1/4 = \frac{25}{12}$
+
+$E(XY) = 0 \cdot 1 \cdot 0 + 0 \cdot 2 \cdot 1/2 + 0 \cdot 3 \cdot 1/4 + 1 \cdot 1 \cdot 1/6 + 1\cdot 2\cdot 1/12 + 1 \cdot 3\cdot 0 = \frac{2}{6}$
+
+$Cov(X,Y) = \frac{2}{6} - \frac{25}{12} \cdot \frac{1}{4} =$ `r 2/6 - (25/12 * 1/4)`
+
+The value of covariance between X and Y is negative, so we could say that high values of X have low values of Y. 
+
 
 ## Exercise 7.6 
 
 Consider a continuous random variable X with expectation 15 and variance 4. Determine the smallest interval $[15 − c, 15 + c]$ which contains at least 90 $\%$ of the values of X .
+
+$P(|X -15 | < c) = 0.9 \geq 1 - \frac{4}{c^2}$
+
+$c = \sqrt{\dfrac{4}{0.1}}$
+
+$c = \pm$ `r sqrt(40)`
+
+$[15 -$ `r sqrt(40)` $, 15 +$ `r sqrt(40)` $]$
 
 ## Exercise 7.7 
 
@@ -181,45 +247,52 @@ Let X and Y be two random variables for which only 6 possible events— $A1, A2,
 i | 1 | 2 | 3 | 4 | 5 | 6
 --- | --- | --- | --- | --- | --- | ---
 $P(A_i)$ | 0.3 | 0.1 | 0.1 | 0.2 | 0.2 | 0.1 
-$X_i$ | -1 | 2 | 2 | -1 | -1 | | 2
+$X_i$ | -1 | 2 | 2 | -1 | -1 | 2
 $Y_i$ | 0 | 2 | 0 | 1 | 2 | 1 
 
 ##### a. What is the joint PDF of $X$ and $Y$?
+
+X /Y | 0 | 1 | 2
+--- | --- | --- | ---
+-1 | 0.3 | 0.2 | 0.2
+2 | 0.1 | 0.1 | 0.1
+
 ##### b. Calculate the marginal distributions of $X$ and $Y$
+$P(X_{-1}) = 0.7$
+
+$P(X_2) = 0.3$
+
+$P(Y_0) = 0.4$
+
+$P(Y_1) = 0.3$
+
+$P(Y_2) = 0.3$
+
 ##### c. Are both variables independent?
+To be independent they have to follow: 
+$P(X = x_i, Y = y_j) = P(X=x_i)P(Y = y_i)$
+
+$P(X=x_{-1}, Y = y_0) = 0.7 \times 0.4 \neq 0.3$
+
 ##### d. Determine the joint PDF for $U = X + Y$
+| -1 | 0 | 1 | 2 | 3 | 4
+P(U) | 0.3 | 0.2 | 0.2 | 0.1 | 0.1 | 0.1
+
 ##### e. Calculate $E(U)$ and $Var(U)$ and compare it with $E(X) + E(Y)$ and $Var(X) + Var(Y)$, respectively.
+$E(U)= -1 \cdot 0.3 + 0 \cdot 0.2 + 1 \cdot 0.2 + 2 \cdot 0.1  + 3 \cdot 0.1 + 4 \cdot 0.1 =$ `r -0.3 + 0.2 + 0.2 + 0.3 + 0.4`
 
-## Exercise 7.8 
+$E(U^2) = (-1)^2 \cdot 0.3 + 0^2 \cdot 0.2 + 1^2 \cdot 0.2 + 2^2 \cdot 0.1  + 3^2 \cdot 0.1 + 4^2 \cdot 0.1 =$ `r (-1)^2 * 0.3 + 0^2 * 0.2 + 1^2 * 0.2 + 2^2 * 0.1  + 3^2 * 0.1 + 4^2 * 0.1`
 
-Recall the urn model we introduced in Chap. 5. Consider an urn with eight balls: four of them are white, three are black, and one is red. Now, two balls are drawn from the urn. The random variables $X$ and $Y$ are defined as follows:
+$Var(U) = E(X^2)-[E(X)]^2 = 3.4 - 0.8^2 =$ `r 3.4 - 0.8^2`
 
-$X = \left\{ \begin{array}{ll} 1 & black \enspace ball \\ 2 & red \enspace ball \enspace in \enspace the \enspace first \enspace draw \\ 3 & whtie \enspace ball \end{array} \right.$
+$E(X) = - 1 \cdot 0.7 + 2 \cdot 0.3 =$ `r - 1 * 0.7 + 2 * 0.3`
 
-$Y = \left\{ \begin{array}{ll} 1 & black \enspace ball \\ 2 & red \enspace ball \enspace in \enspace the \enspace second \enspace draw \\ 3 & whtie \enspace  ball \end{array} \right.$
+$E(X^2) = - 1^2 \cdot 0.7 + 2^2 \cdot 0.3 =$ `r 1 * 0.7 + 2^2 * 0.3`
 
-##### a.When are $X$ and $Y$ independent—when the two balls are drawn with replacement or without replacement?
-##### b. Assume the balls are drawn such that $X$ and $Y$ are dependent. Use the conditional distribution $P(Y |X)$ to determine the joint PDF of $X$ and $Y$
-##### c. Calculate $E(X)$, $E(Y)$, and $ρ(X, Y)$
+$Var(X) = E(X^2)-[E(X)]^2 =$ `r (1 * 0.7 + 2^2 * 0.3) - (- 1 * 0.7 + 2 * 0.3)^2`
 
-## Exercise 7.9 
+$E(Y) = 0 \cdot 0.4 + 1 \cdot 0.3 + 2 \cdot 0.3$ `r 0 * 0.4 + 1 * 0.3 + 2 * 0.3`
 
-If $X$ is the amount of money spent on food and other expenses during a day (in euros) and $Y$ is the daily allowance of a businesswoman, the joint density of these two variables is given by
+$E(Y^2) = 0^2 \cdot 0.4 + 1^2 \cdot 0.3 + 2^2 \cdot 0.3$ `r 1 * 0.3 + 2^2 * 0.3`
 
-
-$f_{XY}(x, y) = \left\{ \begin{array}{ll} c\left( \dfrac{100 -x}{x}\right) & if \enspace 10 \leq x \leq 100, \enspace 40 \leq y \leq 100 \\ 0 & elsewhere  \end{array} \right.$
-
-##### a. Choose $c$ such that $f_{XY}(x, y)$ is a probability density function.
-##### b. Find the marginal distribution of $X$ 
-##### c. Calculate the probability that more than 75 euros are spent.
-##### d. Determine the conditional distribution of $Y$ given $X$
-
-## Exercise 2 7.10 
-
-Consider $n$ i.i.d. random $X$ variables $X_i$ with $E(X_i) = \mu$ and $Var(X_i) = \sigma$ and the standardized variable $Y = \sigma −\mu$ . Show that $E(Y ) = 0$ and $Var(Y ) = 1$
-
-
-
-
-
-
+$Var(Y) = E(Y^2)-[E(Y)]^2 =$ `r (1 * 0.3 + 2^2 * 0.3) - (0 * 0.4 + 1 * 0.3 + 2 * 0.3)^2`

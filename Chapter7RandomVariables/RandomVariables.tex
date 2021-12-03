@@ -1,0 +1,564 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Random Variables},
+  pdfauthor={Abel Isaias Gutierrez-Cruz},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{Random Variables}
+\author{Abel Isaias Gutierrez-Cruz}
+\date{29/11/2021}
+
+\begin{document}
+\maketitle
+
+\hypertarget{exercise-7.1}{%
+\subsection{Exercise 7.1}\label{exercise-7.1}}
+
+Consider the following cumulative distribution function of a random
+variable X :
+
+\(F(x) = \left\{ \begin{array}{ll} 0 & if \enspace x < 2 \\ -\dfrac{1}{4}x^2 + 2x - 3 & if \enspace 2 \leq x \leq 4 \\ 1 & if \enspace x > 4 \end{array} \right.\)
+
+\hypertarget{a.-what-is-the-pdf-of-x}{%
+\subparagraph{a. What is the PDF of X ?}\label{a.-what-is-the-pdf-of-x}}
+
+\(\frac{d}{dx}0 = 0\)
+
+\(\frac{d}{dx} -\dfrac{1}{4}x^2 + 2x - 3 = - \frac{1}{2}x + 2\)
+
+\(\frac{d}{dx} 1 = 0\)
+
+\(\therefore F'(X) = \left\{ \begin{array}{ll} 0 & if \enspace x < 2 \\ -\dfrac{1}{2}x + 2 & if \enspace 2 \leq x \leq 4 \\ 0 & if \enspace x > 4 \end{array} \right.\)
+
+\hypertarget{b.-calculate-px-3-and-px-4.}{%
+\subparagraph{b. Calculate P(X \textless{} 3) and P(X =
+4).}\label{b.-calculate-px-3-and-px-4.}}
+
+\begin{itemize}
+\item
+  Given theorem \(P(X=x_0) = 0\) \(P(X=4) = 0\)
+\item
+  \(P(X<3) = P(X \leq 3) - P(X=3) = -\dfrac{1}{4}*3^2 + 2*3 - 3 - 0 =\)
+  0.75
+\end{itemize}
+
+\hypertarget{c.-determine-ex-and-varx}{%
+\subparagraph{\texorpdfstring{c.~Determine \(E(X)\) and
+\(Var(X)\)}{c.~Determine E(X) and Var(X)}}\label{c.-determine-ex-and-varx}}
+
+\(E(X) = \displaystyle{\int_{-\infty}^\infty x f(x) dx = \int_{-\infty}^2 xf(x)dx + \int_2^4 x f(x)dx + \int_4^\infty xf(x)dx}\)
+
+\(\displaystyle{=0 + \int_2^4 (-\frac{1}{2}x^2 + 2x) dx + 0 = \left[ - \frac{x^3}{6} + x^2 \right]^4_2 = (-\frac{4^3}{6} + 4^2) - (-\frac{2^3}{6} + 2^2)} = \frac{8}{3}=\)
+2.6666667
+
+\(\displaystyle{Var(X) = E(X^2) - [E(X)]^2}\)
+
+\(\displaystyle{E(X^2) = \int_2^4 (-\frac{1}{2}x^3 + 2x^2) dx = \left[ -\frac{x^4}{8} + \frac{2}{3}x^3 \right]_2^4 = (-\frac{4^4}{8} +\frac{2}{3}4^3)- (- \frac{2^4}{8} + \frac{2}{3}2^3) =\frac{22}{3} =}\)
+7.3333333
+
+\(Var(X) = \frac{22}{3} - (\frac{8}{3})^2 =\frac{2}{9}\)
+
+\hypertarget{exercise-7.2}{%
+\subsection{Exercise 7.2}\label{exercise-7.2}}
+
+Joey manipulates a die to increase his chances of winning a board game
+against his friends. In each round, a die is rolled and larger numbers
+are generally an advantage. Consider the random variable X denoting the
+outcome of the rolled die and the respective probabilities
+\(P(X = 1 = 2 = 3 = 5) = 1/9\), \(P(X = 4) = 2/9\), and
+\(P(X = 6) = 3/9\)
+
+\hypertarget{a.-calculate-and-interpret-the-expectation-and-variance-of-x-.}{%
+\subparagraph{a. Calculate and interpret the expectation and variance of
+X
+.}\label{a.-calculate-and-interpret-the-expectation-and-variance-of-x-.}}
+
+\(E(X)=\sum\limits_{i=1}^kx_ip_i=x_1P(X=x_1)+x_2P(X=x_2)+ ... + x_kP(X=x_k)\)
+
+\(E(X) = \sum\limits_{i=1}^6x_ip_i = (1 + 2 + 3 +5)\frac{1}{9} + 4 \cdot \frac{2}{9} + 6 \cdot \frac{3}{9} = \frac{37}{9} \approx\)
+4.1111111
+
+\(E(X^2) = \sum\limits_{i=1}^6x_ip_i = (1^2 + 2^2 + 3^2 +5^2)\frac{1}{9} + 4^2 \cdot \frac{2}{9} + 6^2 \cdot \frac{3}{9} = \frac{179}{9} \approx\)
+19.8888889
+
+\(\displaystyle{Var(X) = E(X^2) - [E(X)]^2}\)
+
+\(Var(X) = \frac{179}{9} - (\frac{37}{9})^2 = \frac{241}{81} \approx\)
+2.9753086
+
+When the players rolling the dies, they will have in average the
+following result: 4.11. Therefore, they will have higher number than
+with a normal die. On the other hand, the variance was not modified.
+
+\hypertarget{b.-imagine-that-the-board-game-contains-an-action-which-makes-the-players-use-1x-rather-than-x-.-what-is-the-expectation-of-y-1x-is-ey-e1-x-1ex}{%
+\subparagraph{\texorpdfstring{b. Imagine that the board game contains an
+action which makes the players use \(1/X\) rather than \(X\) . What is
+the expectation of \(Y = 1/X\) ? Is
+\(E(Y ) = E(1/ X ) = 1/E(X)\)?}{b. Imagine that the board game contains an action which makes the players use 1/X rather than X . What is the expectation of Y = 1/X ? Is E(Y ) = E(1/ X ) = 1/E(X)?}}\label{b.-imagine-that-the-board-game-contains-an-action-which-makes-the-players-use-1x-rather-than-x-.-what-is-the-expectation-of-y-1x-is-ey-e1-x-1ex}}
+
+Given the prior instructions:
+\(P(X = \frac{1}{1} = \frac{1}{2} = \frac{1}{3} = \frac{1}{5}) = 1/9\),
+\(P(X = \frac{1}{4}) = 2/9\), and \(P(X = \frac{1}{6}) = 3/9\)
+
+\(E(Y) = \sum\limits_{i=1}^6x_ip_i = (1 + \frac{1}{2} + \frac{1}{3} +\frac{1}{5})\frac{1}{9} + \frac{1}{4} \cdot \frac{2}{9} + \frac{1}{6} \cdot \frac{3}{9} = \frac{91}{270} \approx\)
+0.337037
+
+If we consider the part a), we will realize that both expression are
+different \(\frac{1}{E(X)} = \frac{37}{9} \neq \frac{91}{270}\)
+
+\hypertarget{exercise-7.3}{%
+\subsection{Exercise 7.3}\label{exercise-7.3}}
+
+An innovative winemaker experiments with new grapes and adds a new wine
+to his stock. The percentage sold by the end of the season depends on
+the weather and various other factors. It can be modeled using the
+random variable \(X\) with the CDF as
+
+\(F(x) = \left\{ \begin{array}{ll} 0 & if \enspace x < 0 \\ 3x^2 - 2x^3 & if \enspace 0 \leq x \leq 1 \\ 1 & if x > 1 \end{array} \right.\)
+
+\hypertarget{a.-plot-the-cumulative-distribution-function-with-r.}{%
+\subparagraph{a. Plot the cumulative distribution function with
+R.}\label{a.-plot-the-cumulative-distribution-function-with-r.}}
+
+To consider the behavior in each interval of the function, we multiply
+each behavior of the data by a logical condition.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cdf }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x)\{(}\DecValTok{3}\SpecialCharTok{*}\NormalTok{x}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{{-}} \DecValTok{2}\SpecialCharTok{*}\NormalTok{x}\SpecialCharTok{\^{}}\DecValTok{3}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ (x }\SpecialCharTok{\textgreater{}=} \DecValTok{0} \SpecialCharTok{\&}\NormalTok{ x }\SpecialCharTok{\textless{}=} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+} \DecValTok{1}\SpecialCharTok{*}\NormalTok{(x}\SpecialCharTok{\textgreater{}}\DecValTok{1}\NormalTok{) }\SpecialCharTok{+} \DecValTok{0}\SpecialCharTok{*}\NormalTok{(x}\SpecialCharTok{\textless{}}\DecValTok{0}\NormalTok{)\}}
+\FunctionTok{curve}\NormalTok{(cdf, }\AttributeTok{from=}\SpecialCharTok{{-}}\FloatTok{0.5}\NormalTok{, }\AttributeTok{to=}\FloatTok{1.5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{RandomVariables_files/figure-latex/unnamed-chunk-1-1.pdf}
+
+\hypertarget{b.-determine-fx}{%
+\subparagraph{\texorpdfstring{b. Determine
+\(f(x)\)}{b. Determine f(x)}}\label{b.-determine-fx}}
+
+\(\frac{d}{dx} F(x)= (3x^2-2x^3)d/dx = 6x - 6x^2\)
+
+\(\therefore f(x) = \left\{ \begin{array}{ll} 6(x - x^2) & if \enspace 0 \leq x \leq 1 \\ 0 & elsewhere \end{array} \right.\)
+
+\hypertarget{c.-what-is-the-probability-of-selling-at-least-one-third-of-his-wine-but-not-more-than-two-thirds}{%
+\subparagraph{c.~What is the probability of selling at least one-third
+of his wine, but not more than two
+thirds?}\label{c.-what-is-the-probability-of-selling-at-least-one-third-of-his-wine-but-not-more-than-two-thirds}}
+
+\(F(\frac{2}{3}) - F(\frac{1}{3}) = \left( 3(\frac{2}{3})^2 + 2(\frac{2}{3})^3 \right) - \left( 3(\frac{1}{3})^2 + 2(\frac{1}{3})^3 \right) =\)
+0.4814815
+
+\hypertarget{d.-define-the-cdf-in-r-and-calculate-the-probability-of-c-again.}{%
+\subparagraph{d.~Define the CDF in R and calculate the probability of c)
+again.}\label{d.-define-the-cdf-in-r-and-calculate-the-probability-of-c-again.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cdf}\NormalTok{(}\DecValTok{2}\SpecialCharTok{/}\DecValTok{3}\NormalTok{) }\SpecialCharTok{{-}} \FunctionTok{cdf}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.4814815
+\end{verbatim}
+
+\hypertarget{e.-what-is-the-variance-of-x}{%
+\subparagraph{e. What is the variance of
+X?}\label{e.-what-is-the-variance-of-x}}
+
+\(\displaystyle E(X) = \int_{-\infty}^\infty xf(x) dx = \int_{-\infty}^0xf(x)dx + \int_0^1xf(x)dx + \int_1^\infty xf(x)dx=\)
+
+\(\displaystyle 0 + \int_0^1xf(x)dx + 0 = 6\left[ \frac{x^3}{3} - \frac{x^4}{4} \right]^1_0 = 6\left( \frac{1}{3} - \frac{1}{4} \right) =\)
+0.5
+
+\(E(X^2) = \displaystyle 0 + \int_0^1x^2f(x)dx + 0 = 6\left[ \frac{x^4}{4} - \frac{x^5}{5} \right]^1_0 = 6\left( \frac{1}{4} - \frac{1}{5} \right) =\)
+0.3
+
+\(Var(X) = E(X^2) - [E(X)]^2 =0.3 - 0.5^2 =\) 0.05
+
+\hypertarget{exercise-7.4}{%
+\subsection{Exercise 7.4}\label{exercise-7.4}}
+
+A quality index summarizes different features of a product by means of a
+score. Different experts may assign different quality scores depending
+on their experience with the product. Let \(X\) be the quality index for
+a tablet. Suppose the respective probability density function is given
+as follows:
+
+\(f(x) = \left\{ \begin{array}{ll} cx(2-x) & if \enspace 0 \leq x \leq 2 \\ 0 & elsewhere \end{array} \right.\)
+
+\hypertarget{a.-determine-c-such-that-fx-is-a-proper-pdf.}{%
+\subparagraph{\texorpdfstring{a. Determine c such that \(f(x)\) is a
+proper
+PDF.}{a. Determine c such that f(x) is a proper PDF.}}\label{a.-determine-c-such-that-fx-is-a-proper-pdf.}}
+
+Conditions:
+
+\begin{itemize}
+\tightlist
+\item
+  \(\int_{-\infty}^\infty f(x)dx = 1\)
+\end{itemize}
+
+\(\displaystyle \int_0^2 c \cdot x(2-x) dx = c \int_0^2 2x - x^2 = c \cdot \left[ x^2 - \frac{x^3}{3} \right]_0^2 = c \cdot \frac{4}{3}\)
+
+\(c \cdot \frac{4}{3} = 1\)
+
+\(c = \frac{3}{4}\)
+
+\begin{itemize}
+\tightlist
+\item
+  \(f(x) \geq 0 \enspace for \enspace all \enspace x \in R\)
+\end{itemize}
+
+\(f(x) = \frac{3}{4} x(2-x) \geq 0 \enspace \forall \enspace x \in [0, 2]\)
+
+\hypertarget{b.-determine-the-cumulative-distribution-function.}{%
+\subparagraph{b. Determine the cumulative distribution
+function.}\label{b.-determine-the-cumulative-distribution-function.}}
+
+\(\displaystyle F(X) = \int_{0}^x f(t) dt = \int_0^x \frac{3}{4}x(2-x)dt = \frac{3}{4} \int_0^x2t - t^2\)
+
+\(\displaystyle \frac{3}{4}(t^2 - \frac{t^3}{3}) = \frac{3}{4}x^2(1-\frac{x}{3})\)
+
+\(\therefore F(X) = \left\{ \begin{array}{ll} 0 & if \enspace x <0 \\ \frac{3}{4}x^2(1-\frac{x}{3}) & if \enspace 0 \leq x \leq 2 \\ 1 & if \enspace x > 2 \end{array} \right.\)
+
+\hypertarget{c.-calculate-the-expectation-and-variance-of-x-.}{%
+\subparagraph{c.~Calculate the expectation and variance of X
+.}\label{c.-calculate-the-expectation-and-variance-of-x-.}}
+
+\(\displaystyle E(X) = \int_{-\infty}^\infty x f(x)dx = \frac{3}{4} \int_0^2 (2x^2 - x^3)dx = \frac{3}{4} \cdot \left[ \frac{2x^3}{3} -\frac{x^4}{4}\right]_0^2 =\)
+
+\(\displaystyle \frac{3}{4} \cdot \left( \frac{16}{3} - 4\right) = \frac{3}{4} \cdot \frac{4}{3} = 1\)
+
+\(\displaystyle E(X^2) = \int_{-\infty}^\infty x f(x)dx = \frac{3}{4} \cdot \left[ \frac{2x^4}{4} -\frac{x^5}{5}\right]_0^2 = \frac{3}{4} \cdot \left( \frac{32}{4} - \frac{32}{5} \right) = \frac{6}{5}\)
+
+\(\displaystyle Var(X) = \frac{6}{5} - 1^2 = \frac{1}{5}\)
+
+\hypertarget{d.-use-tschebyschevs-inequality-to-determine-the-probability-that-x-does-not-deviate-more-than-0.5-from-its-expectation.}{%
+\subparagraph{d.~Use Tschebyschev's inequality to determine the
+probability that X does not deviate more than 0.5 from its
+expectation.}\label{d.-use-tschebyschevs-inequality-to-determine-the-probability-that-x-does-not-deviate-more-than-0.5-from-its-expectation.}}
+
+\(P(|X - \mu| < 0.5) \geq 1 - \frac{\frac{1}{5}}{0.5^2} = 1 - 0.8 = 0.2\)
+
+\hypertarget{exercise-7.5}{%
+\subsection{Exercise 7.5}\label{exercise-7.5}}
+
+Consider the joint PDF for the type of customer service
+\(X (0 = telephonic \enspace hotline, \enspace 1 = Email)\) and of
+satisfaction score
+\(Y (1 = unsatisfied, \enspace 2 = satisfied, \enspace 3 = very \enspace satisfied)\):
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule
+X/Y & 1 & 2 & 3 \\
+\midrule
+\endhead
+0 & 0 & 1/2 & 1/4 \\
+1 & 1/6 & 1/12 & 0 \\
+\bottomrule
+\end{longtable}
+
+\hypertarget{a.-determine-and-interpret-the-marginal-distributions-of-both-x-and-y}{%
+\subparagraph{a. Determine and interpret the marginal distributions of
+both X and
+Y}\label{a.-determine-and-interpret-the-marginal-distributions-of-both-x-and-y}}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+X & \(P(X = x_i)\) \\
+\midrule
+\endhead
+0 & 3/4 \\
+1 & 1/4 \\
+\bottomrule
+\end{longtable}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Y & \(P(Y = y_i)\) \\
+\midrule
+\endhead
+1 & 1/6 \\
+2 & 7/12 \\
+3 & 1/4 \\
+\bottomrule
+\end{longtable}
+
+\hypertarget{b.-calculate-the-75-quantile-for-the-marginal-distribution-of-y}{%
+\subparagraph{\texorpdfstring{b. Calculate the 75 \(\%\) quantile for
+the marginal distribution of
+Y}{b. Calculate the 75 \textbackslash\% quantile for the marginal distribution of Y}}\label{b.-calculate-the-75-quantile-for-the-marginal-distribution-of-y}}
+
+The 75 \(\%\) have to follow:
+
+\(F(x_p)\geq p\) \(F(x) < p \enspace for \enspace x < x_p\)
+
+If we consider those properties, we will found that the third quartile
+is \(X=2\) \(F(x = 2) = 1/6 + 7/12 = 9/12\) \(F(x=2) \geq 0.75\)
+
+\hypertarget{c.-determine-and-interpret-the-conditional-distribution-of-satisfaction-level-for-x-1.}{%
+\subparagraph{\texorpdfstring{c.~Determine and interpret the conditional
+distribution of satisfaction level for
+\(X = 1\).}{c.~Determine and interpret the conditional distribution of satisfaction level for X = 1.}}\label{c.-determine-and-interpret-the-conditional-distribution-of-satisfaction-level-for-x-1.}}
+
+The conditional distribution is given as follows:
+\(\displaystyle P(Y = y_i | X = 1) = p_{j|i} = \frac{p_{ij}}{p_{1+}} = \frac{p_{ij}}{1/4}\)
+
+\(P(Y = 1 | X = 1) = \frac{1/6}{1/4} = 2/3\)
+
+\(P(Y = 2 | X = 1) = \frac{1/12}{1/4} = 1/3\)
+
+\(P(Y = 3 | X = 1) = \frac{0}{1/4} = 0\)
+
+The customers using email like customer services are more uncomfortable.
+The most of them have a level of satisfaction poor (they are
+unsatisfied)
+
+\hypertarget{d.-are-the-two-variables-independent}{%
+\subparagraph{d.~Are the two variables
+independent?}\label{d.-are-the-two-variables-independent}}
+
+To be independent they have to follow:
+\(P(X = x_i, Y = y_j) = P(X=x_i)P(Y = y_i)\)
+
+\(P(X = 0, Y = 1) = 3/4 \times 1/6 \neq 0\)
+
+\hypertarget{e.-calculate-and-interpret-the-covariance-of-x-and-y-.}{%
+\subparagraph{\texorpdfstring{e. Calculate and interpret the covariance
+of \(X\) and \(Y\)
+.}{e. Calculate and interpret the covariance of X and Y .}}\label{e.-calculate-and-interpret-the-covariance-of-x-and-y-.}}
+
+\(Cov(X,Y) = E(XY) - E(X)E(Y)\)
+
+\(E(XY) = \sum_i \sum_j x_iy_ip_{ij}\)
+
+\(\displaystyle E(X) = \sum\limits_{i=1}^kx_ip_i = x_1P(X=x_1)+x_2P(X=x_2)+ ... + x_kP(X=x_k)\)
+
+\(E(X) = 0 \cdot 3/4 + 1 \cdot 3/12 = 1/4\)
+
+\(E(Y) = 1 \cdot 1/6 + 2 \cdot 7/12 + 3 \cdot 1/4 = \frac{25}{12}\)
+
+\(E(XY) = 0 \cdot 1 \cdot 0 + 0 \cdot 2 \cdot 1/2 + 0 \cdot 3 \cdot 1/4 + 1 \cdot 1 \cdot 1/6 + 1\cdot 2\cdot 1/12 + 1 \cdot 3\cdot 0 = \frac{2}{6}\)
+
+\(Cov(X,Y) = \frac{2}{6} - \frac{25}{12} \cdot \frac{1}{4} =\) -0.1875
+
+The value of covariance between X and Y is negative, so we could say
+that high values of X have low values of Y.
+
+\hypertarget{exercise-7.6}{%
+\subsection{Exercise 7.6}\label{exercise-7.6}}
+
+Consider a continuous random variable X with expectation 15 and variance
+4. Determine the smallest interval \([15 − c, 15 + c]\) which contains
+at least 90 \(\%\) of the values of X .
+
+\(P(|X -15 | < c) = 0.9 \geq 1 - \frac{4}{c^2}\)
+
+\(c = \sqrt{\dfrac{4}{0.1}}\)
+
+\(c = \pm\) 6.3245553
+
+\([15 -\) 6.3245553 \(, 15 +\) 6.3245553 \(]\)
+
+\hypertarget{exercise-7.7}{%
+\subsection{Exercise 7.7}\label{exercise-7.7}}
+
+Let X and Y be two random variables for which only 6 possible events---
+\(A1, A2, A3, A4, A5, A6\)---are defined:
+
+\begin{longtable}[]{@{}lllllll@{}}
+\toprule
+i & 1 & 2 & 3 & 4 & 5 & 6 \\
+\midrule
+\endhead
+\(P(A_i)\) & 0.3 & 0.1 & 0.1 & 0.2 & 0.2 & 0.1 \\
+\(X_i\) & -1 & 2 & 2 & -1 & -1 & 2 \\
+\(Y_i\) & 0 & 2 & 0 & 1 & 2 & 1 \\
+\bottomrule
+\end{longtable}
+
+\hypertarget{a.-what-is-the-joint-pdf-of-x-and-y}{%
+\subparagraph{\texorpdfstring{a. What is the joint PDF of \(X\) and
+\(Y\)?}{a. What is the joint PDF of X and Y?}}\label{a.-what-is-the-joint-pdf-of-x-and-y}}
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule
+X /Y & 0 & 1 & 2 \\
+\midrule
+\endhead
+-1 & 0.3 & 0.2 & 0.2 \\
+2 & 0.1 & 0.1 & 0.1 \\
+\bottomrule
+\end{longtable}
+
+\hypertarget{b.-calculate-the-marginal-distributions-of-x-and-y}{%
+\subparagraph{\texorpdfstring{b. Calculate the marginal distributions of
+\(X\) and
+\(Y\)}{b. Calculate the marginal distributions of X and Y}}\label{b.-calculate-the-marginal-distributions-of-x-and-y}}
+
+\(P(X_{-1}) = 0.7\)
+
+\(P(X_2) = 0.3\)
+
+\(P(Y_0) = 0.4\)
+
+\(P(Y_1) = 0.3\)
+
+\(P(Y_2) = 0.3\)
+
+\hypertarget{c.-are-both-variables-independent}{%
+\subparagraph{c.~Are both variables
+independent?}\label{c.-are-both-variables-independent}}
+
+To be independent they have to follow:
+\(P(X = x_i, Y = y_j) = P(X=x_i)P(Y = y_i)\)
+
+\(P(X=x_{-1}, Y = y_0) = 0.7 \times 0.4 \neq 0.3\)
+
+\hypertarget{d.-determine-the-joint-pdf-for-u-x-y}{%
+\subparagraph{\texorpdfstring{d.~Determine the joint PDF for
+\(U = X + Y\)}{d.~Determine the joint PDF for U = X + Y}}\label{d.-determine-the-joint-pdf-for-u-x-y}}
+
+-1 \textbar{} 0 \textbar{} 1 \textbar{} 2 \textbar{} 3 \textbar{} 4
+
+P(U) \textbar{} 0.3 \textbar{} 0.2 \textbar{} 0.2 \textbar{} 0.1
+\textbar{} 0.1 \textbar{} 0.1
+
+\hypertarget{e.-calculate-eu-and-varu-and-compare-it-with-ex-ey-and-varx-vary-respectively.}{%
+\subparagraph{\texorpdfstring{e. Calculate \(E(U)\) and \(Var(U)\) and
+compare it with \(E(X) + E(Y)\) and \(Var(X) + Var(Y)\),
+respectively.}{e. Calculate E(U) and Var(U) and compare it with E(X) + E(Y) and Var(X) + Var(Y), respectively.}}\label{e.-calculate-eu-and-varu-and-compare-it-with-ex-ey-and-varx-vary-respectively.}}
+
+\(E(U)= -1 \cdot 0.3 + 0 \cdot 0.2 + 1 \cdot 0.2 + 2 \cdot 0.1 + 3 \cdot 0.1 + 4 \cdot 0.1 =\)
+0.8
+
+\(E(U^2) = (-1)^2 \cdot 0.3 + 0^2 \cdot 0.2 + 1^2 \cdot 0.2 + 2^2 \cdot 0.1 + 3^2 \cdot 0.1 + 4^2 \cdot 0.1 =\)
+3.4
+
+\(Var(U) = E(X^2)-[E(X)]^2 = 3.4 - 0.8^2 =\) 2.76
+
+\(E(X) = - 1 \cdot 0.7 + 2 \cdot 0.3 =\) -0.1
+
+\(E(X^2) = - 1^2 \cdot 0.7 + 2^2 \cdot 0.3 =\) 1.9
+
+\(Var(X) = E(X^2)-[E(X)]^2 =\) 1.89
+
+\(E(Y) = 0 \cdot 0.4 + 1 \cdot 0.3 + 2 \cdot 0.3\) 0.9
+
+\(E(Y^2) = 0^2 \cdot 0.4 + 1^2 \cdot 0.3 + 2^2 \cdot 0.3\) 1.5
+
+\(Var(Y) = E(Y^2)-[E(Y)]^2 =\) 0.69
+
+\end{document}

@@ -230,7 +230,8 @@ curve(cdf, from=-0.5, to=1.5)</code></pre>
 </div>
 <div id="b.-determine-fx" class="section level5">
 <h5>b. Determine <span class="math inline">\(f(x)\)</span></h5>
-<p><span class="math inline">\(\frac{d}{dx} F(x)= (3x^2-2x^3)d/dx = 6x - 6x^2\)</span> <span class="math inline">\(\therefore f(x) = \left\{ \begin{array}{ll} 6(x - x^2) &amp; if \enspace 0 \leq x \leq 1 \\ 0 &amp; elsewhere \end{array} \right.\)</span></p>
+<p><span class="math inline">\(\frac{d}{dx} F(x)= (3x^2-2x^3)d/dx = 6x - 6x^2\)</span></p>
+<p><span class="math inline">\(\therefore f(x) = \left\{ \begin{array}{ll} 6(x - x^2) &amp; if \enspace 0 \leq x \leq 1 \\ 0 &amp; elsewhere \end{array} \right.\)</span></p>
 </div>
 <div id="c.-what-is-the-probability-of-selling-at-least-one-third-of-his-wine-but-not-more-than-two-thirds" class="section level5">
 <h5>c. What is the probability of selling at least one-third of his wine, but not more than two thirds?</h5>
@@ -257,8 +258,9 @@ curve(cdf, from=-0.5, to=1.5)</code></pre>
 <h5>a. Determine c such that <span class="math inline">\(f(x)\)</span> is a proper PDF.</h5>
 <p>Conditions:</p>
 <ul>
-<li><span class="math inline">\(\int_{-\infty}^\infty f(x)dx = 1\)</span> <span class="math inline">\(\displaystyle \int_0^2 c \cdot x(2-x) dx = c \int_0^2 2x - x^2 = c \cdot \left[ x^2 - \frac{x^3}{3} \right]_0^2 = c \cdot \frac{4}{3}\)</span></li>
+<li><span class="math inline">\(\int_{-\infty}^\infty f(x)dx = 1\)</span></li>
 </ul>
+<p><span class="math inline">\(\displaystyle \int_0^2 c \cdot x(2-x) dx = c \int_0^2 2x - x^2 = c \cdot \left[ x^2 - \frac{x^3}{3} \right]_0^2 = c \cdot \frac{4}{3}\)</span></p>
 <p><span class="math inline">\(c \cdot \frac{4}{3} = 1\)</span></p>
 <p><span class="math inline">\(c = \frac{3}{4}\)</span></p>
 <ul>
@@ -268,16 +270,20 @@ curve(cdf, from=-0.5, to=1.5)</code></pre>
 </div>
 <div id="b.-determine-the-cumulative-distribution-function." class="section level5">
 <h5>b. Determine the cumulative distribution function.</h5>
-<p><span class="math inline">\(\displaystyle F(X) = \int_{0}^x f(t) dt = \int_0^x \frac{3}{4}x(2-x)dt = \frac{3}{4} \int_0^x2t - t^2\)</span> <span class="math inline">\(\displaystyle \frac{3}{4}(t^2 - \frac{t^3}{3}) = \frac{3}{4}x^2(1-\frac{x}{3})\)</span></p>
+<p><span class="math inline">\(\displaystyle F(X) = \int_{0}^x f(t) dt = \int_0^x \frac{3}{4}x(2-x)dt = \frac{3}{4} \int_0^x2t - t^2\)</span></p>
+<p><span class="math inline">\(\displaystyle \frac{3}{4}(t^2 - \frac{t^3}{3}) = \frac{3}{4}x^2(1-\frac{x}{3})\)</span></p>
 <p><span class="math inline">\(\therefore F(X) = \left\{ \begin{array}{ll} 0 &amp; if \enspace x &lt;0 \\ \frac{3}{4}x^2(1-\frac{x}{3}) &amp; if \enspace 0 \leq x \leq 2 \\ 1 &amp; if \enspace x &gt; 2 \end{array} \right.\)</span></p>
 </div>
 <div id="c.-calculate-the-expectation-and-variance-of-x-." class="section level5">
 <h5>c. Calculate the expectation and variance of X .</h5>
 <p><span class="math inline">\(\displaystyle E(X) = \int_{-\infty}^\infty x f(x)dx = \frac{3}{4} \int_0^2 (2x^2 - x^3)dx = \frac{3}{4} \cdot \left[ \frac{2x^3}{3} -\frac{x^4}{4}\right]_0^2 =\)</span></p>
-<p>$$</p>
+<p><span class="math inline">\(\displaystyle \frac{3}{4} \cdot \left( \frac{16}{3} - 4\right) = \frac{3}{4} \cdot \frac{4}{3} = 1\)</span></p>
+<p><span class="math inline">\(\displaystyle E(X^2) = \int_{-\infty}^\infty x f(x)dx = \frac{3}{4} \cdot \left[ \frac{2x^4}{4} -\frac{x^5}{5}\right]_0^2 = \frac{3}{4} \cdot \left( \frac{32}{4} - \frac{32}{5} \right) = \frac{6}{5}\)</span></p>
+<p><span class="math inline">\(\displaystyle Var(X) = \frac{6}{5} - 1^2 = \frac{1}{5}\)</span></p>
 </div>
 <div id="d.-use-tschebyschevs-inequality-to-determine-the-probability-that-x-does-not-deviate-more-than-0.5-from-its-expectation." class="section level5">
 <h5>d. Use Tschebyschev’s inequality to determine the probability that X does not deviate more than 0.5 from its expectation.</h5>
+<p><span class="math inline">\(P(|X - \mu| &lt; 0.5) \geq 1 - \frac{\frac{1}{5}}{0.5^2} = 1 - 0.8 = 0.2\)</span></p>
 </div>
 </div>
 <div id="exercise-7.5" class="section level2">
@@ -307,25 +313,87 @@ curve(cdf, from=-0.5, to=1.5)</code></pre>
 </tr>
 </tbody>
 </table>
-<div id="a.-determine-and-interpret-the-marginal-distributions-of-both-x-and-y-." class="section level5">
-<h5>a. Determine and interpret the marginal distributions of both X and Y .</h5>
+<div id="a.-determine-and-interpret-the-marginal-distributions-of-both-x-and-y" class="section level5">
+<h5>a. Determine and interpret the marginal distributions of both X and Y</h5>
+<table>
+<thead>
+<tr class="header">
+<th>X</th>
+<th><span class="math inline">\(P(X = x_i)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>3/4</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>1/4</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr class="header">
+<th>Y</th>
+<th><span class="math inline">\(P(Y = y_i)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>1/6</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>7/12</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>1/4</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="b.-calculate-the-75-quantile-for-the-marginal-distribution-of-y-." class="section level5">
-<h5>b. Calculate the 75 <span class="math inline">\(\%\)</span> quantile for the marginal distribution of Y .</h5>
+<div id="b.-calculate-the-75-quantile-for-the-marginal-distribution-of-y" class="section level5">
+<h5>b. Calculate the 75 <span class="math inline">\(\%\)</span> quantile for the marginal distribution of Y</h5>
+<p>The 75 <span class="math inline">\(\%\)</span> have to follow:</p>
+<p><span class="math inline">\(F(x_p)\geq p\)</span> <span class="math inline">\(F(x) &lt; p \enspace for \enspace x &lt; x_p\)</span></p>
+<p>If we consider those properties, we will found that the third quartile is <span class="math inline">\(X=2\)</span> <span class="math inline">\(F(x = 2) = 1/6 + 7/12 = 9/12\)</span> <span class="math inline">\(F(x=2) \geq 0.75\)</span></p>
 </div>
 <div id="c.-determine-and-interpret-the-conditional-distribution-of-satisfaction-level-for-x-1." class="section level5">
 <h5>c. Determine and interpret the conditional distribution of satisfaction level for <span class="math inline">\(X = 1\)</span>.</h5>
+<p>The conditional distribution is given as follows: <span class="math inline">\(\displaystyle P(Y = y_i | X = 1) = p_{j|i} = \frac{p_{ij}}{p_{1+}} = \frac{p_{ij}}{1/4}\)</span></p>
+<p><span class="math inline">\(P(Y = 1 | X = 1) = \frac{1/6}{1/4} = 2/3\)</span></p>
+<p><span class="math inline">\(P(Y = 2 | X = 1) = \frac{1/12}{1/4} = 1/3\)</span></p>
+<p><span class="math inline">\(P(Y = 3 | X = 1) = \frac{0}{1/4} = 0\)</span></p>
+<p>The customers using email like customer services are more uncomfortable. The most of them have a level of satisfaction poor (they are unsatisfied)</p>
 </div>
 <div id="d.-are-the-two-variables-independent" class="section level5">
 <h5>d. Are the two variables independent?</h5>
+<p>To be independent they have to follow: <span class="math inline">\(P(X = x_i, Y = y_j) = P(X=x_i)P(Y = y_i)\)</span></p>
+<p><span class="math inline">\(P(X = 0, Y = 1) = 3/4 \times 1/6 \neq 0\)</span></p>
 </div>
 <div id="e.-calculate-and-interpret-the-covariance-of-x-and-y-." class="section level5">
 <h5>e. Calculate and interpret the covariance of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> .</h5>
+<p><span class="math inline">\(Cov(X,Y) = E(XY) - E(X)E(Y)\)</span></p>
+<p><span class="math inline">\(E(XY) = \sum_i \sum_j x_iy_ip_{ij}\)</span></p>
+<p><span class="math inline">\(\displaystyle E(X) = \sum\limits_{i=1}^kx_ip_i = x_1P(X=x_1)+x_2P(X=x_2)+ ... + x_kP(X=x_k)\)</span></p>
+<p><span class="math inline">\(E(X) = 0 \cdot 3/4 + 1 \cdot 3/12 = 1/4\)</span></p>
+<p><span class="math inline">\(E(Y) = 1 \cdot 1/6 + 2 \cdot 7/12 + 3 \cdot 1/4 = \frac{25}{12}\)</span></p>
+<p><span class="math inline">\(E(XY) = 0 \cdot 1 \cdot 0 + 0 \cdot 2 \cdot 1/2 + 0 \cdot 3 \cdot 1/4 + 1 \cdot 1 \cdot 1/6 + 1\cdot 2\cdot 1/12 + 1 \cdot 3\cdot 0 = \frac{2}{6}\)</span></p>
+<p><span class="math inline">\(Cov(X,Y) = \frac{2}{6} - \frac{25}{12} \cdot \frac{1}{4} =\)</span> -0.1875</p>
+<p>The value of covariance between X and Y is negative, so we could say that high values of X have low values of Y.</p>
 </div>
 </div>
 <div id="exercise-7.6" class="section level2">
 <h2>Exercise 7.6</h2>
 <p>Consider a continuous random variable X with expectation 15 and variance 4. Determine the smallest interval <span class="math inline">\([15 − c, 15 + c]\)</span> which contains at least 90 <span class="math inline">\(\%\)</span> of the values of X .</p>
+<p><span class="math inline">\(P(|X -15 | &lt; c) = 0.9 \geq 1 - \frac{4}{c^2}\)</span></p>
+<p><span class="math inline">\(c = \sqrt{\dfrac{4}{0.1}}\)</span></p>
+<p><span class="math inline">\(c = \pm\)</span> 6.3245553</p>
+<p><span class="math inline">\([15 -\)</span> 6.3245553 <span class="math inline">\(, 15 +\)</span> 6.3245553 <span class="math inline">\(]\)</span></p>
 </div>
 <div id="exercise-7.7" class="section level2">
 <h2>Exercise 7.7</h2>
@@ -359,7 +427,7 @@ curve(cdf, from=-0.5, to=1.5)</code></pre>
 <td>2</td>
 <td>-1</td>
 <td>-1</td>
-<td></td>
+<td>2</td>
 </tr>
 <tr class="odd">
 <td><span class="math inline">\(Y_i\)</span></td>
@@ -374,18 +442,60 @@ curve(cdf, from=-0.5, to=1.5)</code></pre>
 </table>
 <div id="a.-what-is-the-joint-pdf-of-x-and-y" class="section level5">
 <h5>a. What is the joint PDF of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>?</h5>
+<table>
+<thead>
+<tr class="header">
+<th>X /Y</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>-1</td>
+<td>0.3</td>
+<td>0.2</td>
+<td>0.2</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>0.1</td>
+<td>0.1</td>
+<td>0.1</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="b.-calculate-the-marginal-distributions-of-x-and-y" class="section level5">
 <h5>b. Calculate the marginal distributions of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span></h5>
+<p><span class="math inline">\(P(X_{-1}) = 0.7\)</span></p>
+<p><span class="math inline">\(P(X_2) = 0.3\)</span></p>
+<p><span class="math inline">\(P(Y_0) = 0.4\)</span></p>
+<p><span class="math inline">\(P(Y_1) = 0.3\)</span></p>
+<p><span class="math inline">\(P(Y_2) = 0.3\)</span></p>
 </div>
 <div id="c.-are-both-variables-independent" class="section level5">
 <h5>c. Are both variables independent?</h5>
+<p>To be independent they have to follow: <span class="math inline">\(P(X = x_i, Y = y_j) = P(X=x_i)P(Y = y_i)\)</span></p>
+<p><span class="math inline">\(P(X=x_{-1}, Y = y_0) = 0.7 \times 0.4 \neq 0.3\)</span></p>
 </div>
 <div id="d.-determine-the-joint-pdf-for-u-x-y" class="section level5">
 <h5>d. Determine the joint PDF for <span class="math inline">\(U = X + Y\)</span></h5>
+<div class="line-block">-1 | 0 | 1 | 2 | 3 | 4</div>
+<p>P(U) | 0.3 | 0.2 | 0.2 | 0.1 | 0.1 | 0.1</p>
 </div>
 <div id="e.-calculate-eu-and-varu-and-compare-it-with-ex-ey-and-varx-vary-respectively." class="section level5">
 <h5>e. Calculate <span class="math inline">\(E(U)\)</span> and <span class="math inline">\(Var(U)\)</span> and compare it with <span class="math inline">\(E(X) + E(Y)\)</span> and <span class="math inline">\(Var(X) + Var(Y)\)</span>, respectively.</h5>
+<p><span class="math inline">\(E(U)= -1 \cdot 0.3 + 0 \cdot 0.2 + 1 \cdot 0.2 + 2 \cdot 0.1 + 3 \cdot 0.1 + 4 \cdot 0.1 =\)</span> 0.8</p>
+<p><span class="math inline">\(E(U^2) = (-1)^2 \cdot 0.3 + 0^2 \cdot 0.2 + 1^2 \cdot 0.2 + 2^2 \cdot 0.1 + 3^2 \cdot 0.1 + 4^2 \cdot 0.1 =\)</span> 3.4</p>
+<p><span class="math inline">\(Var(U) = E(X^2)-[E(X)]^2 = 3.4 - 0.8^2 =\)</span> 2.76</p>
+<p><span class="math inline">\(E(X) = - 1 \cdot 0.7 + 2 \cdot 0.3 =\)</span> -0.1</p>
+<p><span class="math inline">\(E(X^2) = - 1^2 \cdot 0.7 + 2^2 \cdot 0.3 =\)</span> 1.9</p>
+<p><span class="math inline">\(Var(X) = E(X^2)-[E(X)]^2 =\)</span> 1.89</p>
+<p><span class="math inline">\(E(Y) = 0 \cdot 0.4 + 1 \cdot 0.3 + 2 \cdot 0.3\)</span> 0.9</p>
+<p><span class="math inline">\(E(Y^2) = 0^2 \cdot 0.4 + 1^2 \cdot 0.3 + 2^2 \cdot 0.3\)</span> 1.5</p>
+<p><span class="math inline">\(Var(Y) = E(Y^2)-[E(Y)]^2 =\)</span> 0.69</p>
 </div>
 </div>
 <div id="exercise-7.8" class="section level2">
