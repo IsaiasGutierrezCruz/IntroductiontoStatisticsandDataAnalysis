@@ -1,0 +1,57 @@
+---
+title: "Explanations in the book"
+author: "Abel Isaias Gutierrez-Cruz"
+date: "1/2/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+```
+
+## Linear Regression with Multiple Covariates
+```{r}
+# load data
+data <- read.csv("../Data/pizza_delivery.csv")
+lm(data$time~data$bill+data$operator)
+```
+
+### Linear Regression with categorical covariates
+```{r}
+lm(data$time~as.factor(data$branch))
+summary(lm(data$time~as.factor(data$branch)))
+```
+
+### Linear regression with ANOVA
+```{r}
+m2 <- lm(data$time~data$branch+data$operator+data$driver)
+summary(lm(data$time~data$branch+data$operator+data$driver))
+
+anova(m2)
+```
+
+### Linear regression with categorical-continuous interaction
+```{r}
+int.model.1 <- data %>% lm(temperature~time*branch, .)
+int.model.2 <- data %>% lm(temperature~time+branch+time:branch, .)
+summary(int.model.1)
+summary(int.model.2)
+```
+
+## Comparing different Models
+
+### Backward selection
+
+```{r}
+library(MASS)
+ms <- data %>% lm(time~branch+bill+operator+driver+temperature+pizzas, .)
+stepAIC(ms, direction = 'back')
+```
+
+We obtained that removing the "operator" variable we could improve the model:
+```{r}
+ms <- data %>% lm(time~branch+bill+driver+temperature+pizzas, .)
+stepAIC(ms, direction = 'back')
+```
+
