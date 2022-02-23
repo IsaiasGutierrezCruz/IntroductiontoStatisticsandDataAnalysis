@@ -2,7 +2,9 @@
 title: "Explanations in the book"
 author: "Abel Isaias Gutierrez-Cruz"
 date: "1/2/2022"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -45,7 +47,7 @@ summary(int.model.2)
 
 ```{r}
 library(MASS)
-ms <- data %>% lm(time~branch+bill+operator+driver+temperature+pizzas, .)
+ms <- data %>% lm(time~branch+bill+operator+driver+temperature+pizzas, data= .)
 stepAIC(ms, direction = 'back')
 ```
 
@@ -54,4 +56,19 @@ We obtained that removing the "operator" variable we could improve the model:
 ms <- data %>% lm(time~branch+bill+driver+temperature+pizzas, .)
 stepAIC(ms, direction = 'back')
 ```
+
+#### Evaluating normality assumption and homoscedasticity
+```{r}
+fm <- data %>% lm(time~branch+bill+driver+temperature+pizzas, .)
+hist(rstandard(fm))
+plot(fm, which=2)
+```
+
+In the prior plots is shown that the normality assumption does not seem to be violated
+
+```{r}
+plot(fm, which = 3)
+```
+
+The plot do not have a visible structure, there is no indication of heteroscedaticity.
 
